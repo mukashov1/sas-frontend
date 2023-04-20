@@ -3,7 +3,7 @@ import SearchResult from './searchResult';
 import { BsSearch, BsArrowLeft } from 'react-icons/bs'
 
 const users = [
-  { id: 1, name: 'John', surname: 'Doe', status: 'studen' },
+  { id: 1, name: 'John', surname: 'Doe', status: 'student' },
   { id: 2, name: 'Jane', surname: 'Doe', status: 'teacher' },
   { id: 3, name: 'Bob', surname: 'Smith', status: 'admin' },
   { id: 4, name: 'Alice', surname: 'Johnson', status: 'student' },

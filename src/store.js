@@ -7,7 +7,7 @@ export default class Store {
   isAuth = false;
   isLoading = false;
   checked = false;
-  role = 'student'
+  role = 'admin'
   constructor() {
     makeAutoObservable(this);
   }

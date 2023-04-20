@@ -3,6 +3,8 @@ import { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { AiOutlineCloudUpload } from 'react-icons/ai';
+import $api from "../../http/api";
+import axios from 'axios'
 
 
 export default function Specialreason() {
@@ -20,37 +22,46 @@ export default function Specialreason() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
-        const formData = new FormData();
-        formData.append("startDate", startDate.toISOString());
-        formData.append("endDate", endDate.toISOString());
-        formData.append("selectedOption", selectedOption);
-        formData.append("selectedFile", selectedFile);
-        formData.append("comment", comment);
-
-        try {
-            const response = await fetch("/api/specialreason", {
-                method: "POST",
-                body: formData,
-            });
-
-            if (response.ok) {
-                alert("Form submitted successfully!");
-                setStartDate(new Date());
-                setEndDate(new Date());
-                setSelectedOption("Illness");
-                setSelectedFile(null);
-                setSelectedName("");
-                setComment("");
-                setIsButtonEnabled(true);
-            } else {
-                alert("Form submission failed.");
+    
+        // Convert file to base64
+        const reader = new FileReader();
+        reader.readAsDataURL(selectedFile);
+        reader.onload = async () => {
+            const base64File = reader.result;
+    
+            // Prepare form data
+            const formData = new FormData();
+            formData.append("startDate", startDate.toISOString());
+            formData.append("endDate", endDate.toISOString());
+            formData.append("selectedOption", selectedOption);
+            formData.append("document", base64File);
+            formData.append("comment", comment);
+    
+            try {
+                const response = await fetch("https://sasserver.software/api/recordSpecialReason", {
+                    method: "POST",
+                    body: formData,
+                });
+    
+                if (response.ok) {
+                    alert("Form submitted successfully!");
+                    setStartDate(new Date());
+                    setEndDate(new Date());
+                    setSelectedOption("Illness");
+                    setSelectedFile(null);
+                    setSelectedName("");
+                    setComment("");
+                    setIsButtonEnabled(true);
+                } else {
+                    alert("Form submission failed.");
+                }
+            } catch (error) {
+                console.error(error);
+                alert("An error occurred while submitting the form.");
             }
-        } catch (error) {
-            console.error(error);
-            alert("An error occurred while submitting the form.");
-        }
+        };
     };
+    
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];

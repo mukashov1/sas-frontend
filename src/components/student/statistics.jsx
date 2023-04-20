@@ -1,23 +1,62 @@
 import React, { useState } from 'react'
 import { BsFillXCircleFill, BsCheckCircleFill } from 'react-icons/bs'
 import SubjectStat from './subjectStatistics'
+import { FaAngleDown } from 'react-icons/fa'
 
 const subjects = [
-  { name: 'History', present: 15, absent: 2 },
-  { name: 'Math', present: 10, absent: 5 },
-  { name: 'Programming', present: 1, absent: 3 },
-  { name: 'Design Pattern', present: 4, absent: 1 },
-  { name: 'DBMS1', present: 9, absent: 2 },
-  { name: 'DBMS2', present: 5, absent: 6 },
+  { name: 'History', present: 15, absent: 2 , attendance: ['present', 'absent', 'present', 'present', 'absent', 'present', 'present', 'present', 'present', 'present']},
+  { name: 'Math', present: 10, absent: 5 , attendance: ['present', 'absent', 'present', 'present', 'absent', 'present', 'present', 'present', 'present', 'present']},
+  { name: 'Programming', present: 1, absent: 3 , attendance: ['present', 'absent', 'present', 'present', 'absent', 'present', 'present', 'present', 'present', 'present']},
+  { name: 'Design Pattern', present: 4, absent: 1 , attendance: ['present', 'absent', 'present', 'present', 'absent', 'present', 'present', 'present', 'present', 'present']},
+  { name: 'DBMS1', present: 9, absent: 2 , attendance: ['present', 'absent', 'present', 'present', 'absent', 'present', 'present', 'present', 'present', 'present']},
+  { name: 'DBMS2', present: 5, absent: 6 , attendance: ['present', 'absent', 'present', 'present', 'absent', 'present', 'present', 'present', 'present', 'present']},
 ]
 
-export default function Statistics() {
-  const [subjectData, setSubjectData] = useState([]);
-  const [selectedSubject, setSelectedSubject] = useState(null);
-  const [showDropdown, setShowDropdown] = useState(false);
+function Dropdown({ subject, dates }) {
+  return (
+    <div style={{ maxWidth: "80%", overflowX: "auto" }}>
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            {dates.map((date) => (
+              <td key={date}>{date}</td>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Attendance</th>
+            {dates.map((date, index) => (
+              <td key={date}>{subject.attendance[index] === 'present' ? <i style={{ color: 'green' }}><BsCheckCircleFill /></i> : <i style={{ color: 'red' }}><BsFillXCircleFill /></i>}</td>
+            ))}
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  );
+}
 
-  function handleButtonClick() {
-    setShowDropdown(!showDropdown);
+
+
+
+export default function Statistics() {
+  const [showDropdown, setShowDropdown] = useState(false)
+  const [selectedSubject, setSelectedSubject] = useState(null)
+
+  const handleDropdownClick = (subject) => {
+    if (selectedSubject === subject) {
+      setSelectedSubject(null)
+      setShowDropdown(false)
+    } else {
+      setSelectedSubject(subject)
+      setShowDropdown(true)
+    }
+  }
+
+  const handleDropdownClose = () => {
+    setSelectedSubject(null)
+    setShowDropdown(false)
   }
 
   return (
@@ -30,48 +69,33 @@ export default function Statistics() {
             <th><i style={{ color: 'green' }}><BsCheckCircleFill /></i></th>
             <th><i style={{ color: 'red' }}><BsFillXCircleFill /></i></th>
             <th>%</th>
-            <th></th>
           </tr>
         </thead>
         <tbody>
           {subjects.map((subject, index) => (
-            <tr key={index}>
-              <td>{subject.name}</td>
-              <td>{subject.present}</td>
-              <td>{subject.absent}</td>
-              <td>{`${(subject.absent / 15 * 100).toFixed(0)}%`}</td>
-              <td><input type="radio" name="subject" id={index} /></td>
-            </tr>
+            <React.Fragment key={index}>
+              <tr>
+                <td>{subject.name}</td>
+                <td>{subject.present}</td>
+                <td>{subject.absent}</td>
+                <td>{`${(subject.absent / 15 * 100).toFixed(0)}%`}</td>
+                <td><FaAngleDown onClick={() => handleDropdownClick(subject)} /></td>
+              </tr>
+              {showDropdown && selectedSubject === subject && (
+                <tr>
+                  <td colSpan={6}>
+                    <Dropdown subject={subject} dates={['01.03', '02.03', '03.03', '04.03', '05.03', '06.03', '07.03', '08.03', '09.03', '10.03']}/>
+                  </td>
+                </tr>
+              )}
+            </React.Fragment>
           ))}
         </tbody>
       </table>
-      <div className="dropdown-container">
-        <button onClick={handleButtonClick}>Add Data</button>
-        {showDropdown && (
-          <div className="dropdown">
-            <table>
-              <thead>
-                <tr>
-                  {[...Array(10)].map((_, index) => (
-                    <th key={index}>Date {index + 1}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  {[...Array(10)].map((_, index) => (
-                    <td key={index}>
-                      <input type="radio" name={`date-${index}`} value="attended" /> Attended
-                      <br />
-                      <input type="radio" name={`date-${index}`} value="absent" /> Absent
-                    </td>
-                  ))}
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
+      {showDropdown && (
+        <div className="dropdown-overlay" onClick={handleDropdownClose}>
+        </div>
+      )}
     </div>
   )
 }

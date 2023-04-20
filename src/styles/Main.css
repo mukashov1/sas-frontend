@@ -46,7 +46,8 @@ button:disabled {
 }
 
 .Main > div:nth-child(2) {
-  margin-top: 180px;
+  margin-top: 160px;
+  margin-left: max(0px , 5%);
   width: 65%;
 }
 
@@ -221,7 +222,7 @@ button:disabled {
   background: #50abff;
 }
 
-.main table tbody tr.notActive a {
+.main table tbody tr.not_active a {
   background: #ffb13c;
 }
 

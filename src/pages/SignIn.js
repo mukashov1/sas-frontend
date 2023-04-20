@@ -27,10 +27,10 @@ function SignIn() {
     // }
     const response = await store.login(userId, password);
 
-    if (response.ok) {
-      console.log("response.status:   " + response.status);
-      navigate("/student");
-    } else  if (userId === '2'){
+    console.log("response.status:   " + response.status);
+    if (response.status === 200) {
+      navigate(fromPage);
+    } else {
       setError("Invalid id or password!");
     }
   };
