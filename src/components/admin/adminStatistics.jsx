@@ -60,7 +60,7 @@ export default function AdminStatistics() {
         {searchType === 'individual' ? (
           <>
             <BsSearch />
-            <input type="text" value={individualSearchTerm} onChange={handleIndividualSearchTermChange} />
+            <input type="text" placeholder='search by name, surname, ID' value={individualSearchTerm} onChange={handleIndividualSearchTermChange} />
           </>
         ) : (
           <><input type="text" value={courseSearchTerm} onChange={handleCourseSearchTermChange} />

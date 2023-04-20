@@ -28,7 +28,7 @@ export default function Navbar() {
     </div>;
   } else if (role === 'admin') {
     menu = <div className="menu">
-      <NavLink end to={'/admin'} ><ImStatsDots />    Statistics</NavLink>
+      <NavLink end to={'/admin'} ><ImStatsDots />    Statisticss</NavLink>
       <NavLink to={'/admin/reason'} ><HiClipboardList />    Absence Reason</NavLink>
       <NavLink to={'/'} style={{ color: '#ff0000' }}><BiLogOut />    Log out</NavLink>
     </div>;

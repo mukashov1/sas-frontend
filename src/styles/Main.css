@@ -33,6 +33,13 @@ button:disabled {
   background: #878787;
 }
 
+input {
+  /* width: 60%; */
+  border: 3px solid #d9d9d9;
+  border-radius: 30px;
+  padding: 5px 20px;
+}
+
 #root {
   display: flex;
   flex-direction: row;

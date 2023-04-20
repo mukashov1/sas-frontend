@@ -28,7 +28,7 @@ export default function Specialreason() {
         reader.readAsDataURL(selectedFile);
         reader.onload = async () => {
             const base64File = reader.result;
-    
+            // console.log(base64File)
             // Prepare form data
             const formData = new FormData();
             formData.append("startDate", startDate.toISOString());
