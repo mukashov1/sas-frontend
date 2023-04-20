@@ -28,7 +28,7 @@ export default class Store {
     try {
       console.log("we are inside of login");
       const response = await AutService.login(userId, password);
-      console.log("WE " + response);
+      console.log("WE " + response.data.user);
       localStorage.setItem("token", response.data.accessToken);
       this.setAuth(true);
       this.setUser(response.data.user);
