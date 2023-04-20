@@ -19,17 +19,17 @@ function SignIn() {
     event.preventDefault();
     console.log("hello");
     console.log(userId);
-    if (userId === "1") {
-      navigate(fromPage);
-    }
-    if (userId === '2'){
-      setError("Invalid id or password!");
-    }
+    // if (userId === "1") {
+    //   navigate(fromPage);
+    // }
+    // if (userId === '2'){
+    //   setError("Invalid id or password!");
+    // }
     const response = await store.login(userId, password);
 
     if (response.ok) {
       console.log("response.status:   " + response.status);
-      navigate(fromPage);
+      navigate("/student");
     } else  if (userId === '2'){
       setError("Invalid id or password!");
     }
