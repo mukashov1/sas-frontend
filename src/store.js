@@ -1,5 +1,4 @@
 import { makeAutoObservable } from "mobx";
-import { useState } from "react";
 import AutService from "./services/AuthService";
 import axios from "axios";
 import UserService from "./services/UserService";

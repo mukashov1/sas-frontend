@@ -1,5 +1,5 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-import { useState, createContext, useEffect } from "react";
+import { createContext, useEffect } from "react";
 
 import { observer } from "mobx-react-lite";
 import Store from "../store.js";
@@ -45,7 +45,7 @@ export const MyRoutes = observer(() => {
             <Route path="messages" element={<Messages />} />
           </Route>
           <Route path="/admin" element={<Main />}>
-            <Route index element={< AdminStatistics/>} />
+            <Route index element={< AdminStatistics />} />
             <Route path="reason" element={<AdminReason />} />
           </Route>
         </Routes>

@@ -1,6 +1,6 @@
 import axios from "axios";
 // import { AuthResponse } from "../models/response/AuthResponse";
-import { store } from "../store";
+// import { store } from "../store";
 // import { IUser } from "../models/IUser";
 
 export const API_URL = `https://sasserver.software/api`;
@@ -10,6 +10,7 @@ const $api = axios.create({
   baseURL: API_URL,
 });
 
+console.log("dfdfd")
 $api.interceptors.request.use((config) => {
   config.headers.Authorization = `Bearer ${localStorage.getItem("token")}`;
   return config;

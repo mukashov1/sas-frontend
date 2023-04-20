@@ -26,10 +26,9 @@ function SignIn() {
       setError("Invalid id or password!");
     }
     const response = await store.login(userId, password);
-    console.log("Login" + response.role);
 
     if (userId === '12345') {
-      console.log(response.status);
+      console.log("response.status:   " + response.status);
       navigate(fromPage);
     } else  if (userId === '2'){
       setError("Invalid id or password!");
