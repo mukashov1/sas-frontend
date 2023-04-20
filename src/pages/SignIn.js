@@ -27,7 +27,7 @@ function SignIn() {
     }
     const response = await store.login(userId, password);
 
-    if (userId === '12345') {
+    if (response.ok) {
       console.log("response.status:   " + response.status);
       navigate(fromPage);
     } else  if (userId === '2'){
