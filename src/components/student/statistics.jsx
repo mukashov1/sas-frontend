@@ -14,7 +14,7 @@ const subjects = [
 
 function Dropdown({ subject, dates }) {
   return (
-    <div style={{ maxWidth: "80%", overflowX: "auto" }}>
+    <div style={{overflowX: "auto" }}>
       <table>
         <thead>
           <tr>
@@ -83,7 +83,7 @@ export default function Statistics() {
               </tr>
               {showDropdown && selectedSubject === subject && (
                 <tr>
-                  <td colSpan={6}>
+                  <td colSpan={6} className='col-6'>
                     <Dropdown subject={subject} dates={['01.03', '02.03', '03.03', '04.03', '05.03', '06.03', '07.03', '08.03', '09.03', '10.03']}/>
                   </td>
                 </tr>

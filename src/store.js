@@ -18,6 +18,8 @@ export default class Store {
 
   setUser(user) {
     this.user = user;
+    localStorage.setItem("user", JSON.stringify(user));
+    console.log("Inside store useEffect triggered:  ")
   }
   setLoading(bool) {
     this.isLoading = bool;
@@ -30,6 +32,7 @@ export default class Store {
       console.log("WE " + response.data.user);
       localStorage.setItem("token", response.data.accessToken);
       this.setAuth(true);
+      console.log("Inside store:  " + response.data.user)
       this.setUser(response.data.user);
       return response;
     } catch (error) {

@@ -13,7 +13,7 @@ function SignIn() {
   const [error, setError] = useState("");
   const [isForgetPasswordOpen, setIsForgetPasswordOpen] = useState(false);
   const { store } = useContext(UserContext);
-  const fromPage = location.state?.from?.pathname || `${store.role}`;
+  const fromPage = location.state?.from?.pathname || `${store.user.role}`;
 
   const handleLogin = async (event) => {
     event.preventDefault();
