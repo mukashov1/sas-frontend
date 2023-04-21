@@ -46,7 +46,7 @@ export default function Navbar() {
           <h3 className="name">
             {store.user.firstName} {store.user.lastName}
           </h3>
-          <p className="status">{role}</p>
+          <p className="status">{store.user.role}</p>
         </div>
       </div>
       {menu}
