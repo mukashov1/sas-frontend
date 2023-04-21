@@ -13,7 +13,7 @@ function SignIn() {
   const [error, setError] = useState("");
   const [isForgetPasswordOpen, setIsForgetPasswordOpen] = useState(false);
   const { store } = useContext(UserContext);
-  const fromPage = location.state?.from?.pathname || `${store.user.role}`;
+  const fromPage = location.state?.from?.pathname;
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -21,7 +21,7 @@ function SignIn() {
     console.log(userId);
     // if (userId === "1") {
     //   navigate(fromPage);
-    // }
+    // }.role
     // if (userId === '2'){
     //   setError("Invalid id or password!");
     // }
@@ -29,7 +29,13 @@ function SignIn() {
 
     console.log("response.status:   " + response.status);
     if (response.status === 200) {
-      navigate(fromPage);
+      if (store.user.role === 'student') {
+        navigate("/student");
+
+      } else {
+
+        navigate("/admin");
+      }
     } else {
       setError("Invalid id or password!");
     }
