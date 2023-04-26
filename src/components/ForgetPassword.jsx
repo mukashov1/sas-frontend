@@ -1,77 +1,39 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
-function ForgetPassword({ onCancel }) {
+function ForgotPassword({ onCancel }) {
   const [userId, setUserId] = useState("");
-  const [password, setPassword] = useState("");
-  const [repeatPassword, setRepeatPassword] = useState("");
-  const [showNewPasswordFields, setShowNewPasswordFields] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const navigate = useNavigate();
+  const [message, setMessage] = useState("");
+  const [isSubmitted, setisSubmitted] = useState(false);
 
-  const handleUserIdSubmit = (event) => {
-    event.preventDefault();
-    if (userId === "12345") {
-      setShowNewPasswordFields(true);
-      setErrorMessage("");
-    } else {
-      setShowNewPasswordFields(false);
-      setErrorMessage("Invalid user ID.");
-    }
+  const handleUserIdChange = (event) => {
+    setUserId(event.target.value);
   };
 
-  const handlePasswordSubmit = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    if (password !== repeatPassword) {
-      setErrorMessage("Passwords do not match.");
-    } else {
-      // TODO: Update the user's password on the server.
-      onCancel();
-    }
+    // TODO: Implement password reset logic here.
+    setMessage("The new password has been sent to your email.");
+    setUserId("");
+    setisSubmitted(true)
   };
 
-  const handleCancel = (event) => {
-    event.preventDefault();
+  const handleCancel = () => {
+    setUserId("");
     onCancel();
   };
 
   return (
-    <div className="forgetPassword">
-      <div className="container">
-        <h2>Forgot Password</h2>
-        {errorMessage && <div className="error">{errorMessage}</div>}
-        {!showNewPasswordFields ? (
-          <form onSubmit={handleUserIdSubmit}>
-            <input
-              type="text"
-              placeholder="Enter your user ID"
-              value={userId}
-              onChange={(e) => setUserId(e.target.value)}
-            />
-            <button type="submit">Submit</button>
-            <button onClick={handleCancel}>Cancel</button>
-          </form>
-        ) : (
-          <form onSubmit={handlePasswordSubmit}>
-            <input
-              type="password"
-              placeholder="New Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <input
-              type="password"
-              placeholder="Repeat Password"
-              value={repeatPassword}
-              onChange={(e) => setRepeatPassword(e.target.value)}
-            />
-            <button type="submit">Submit</button>
-            <button onClick={handleCancel}>Cancel</button>
-          </form>
-        )}
-      </div>
+    <div className="forgot_password" style={{textAlign: 'center'}}>
+      {!isSubmitted ? (
+        <><h2>Forgot Password</h2><form onSubmit={handleSubmit}>
+          <input type="text" id="userId" value={userId} onChange={handleUserIdChange} placeholder="ID" />
+          <button type="submit">Submit</button>
+        </form></>
+
+      ) : (<div className="message">{message}</div>)}
+      <button type="button" onClick={handleCancel} style={{margin: "10px auto"}}>Cancel</button>
     </div>
   );
 }
 
-export default ForgetPassword;
+export default ForgotPassword;

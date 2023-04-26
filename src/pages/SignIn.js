@@ -21,8 +21,8 @@ function SignIn() {
     console.log(userId);
     const response = await store.login(userId, password);
 
-    console.log("response.status:   " + response.status);
-    if (response.status === 200) {
+    // console.log("response.status:   " + response.ok);
+    if (response && response.status === 200) {
       if (store.user.role === 'student') {
         navigate("/student");
 
