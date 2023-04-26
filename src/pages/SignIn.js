@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import logo from "../assets/logo.svg";
+import logo from "../assets/icon.png";
 import "../styles/SignIn.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { UserContext } from "../routing/index.jsx";
@@ -19,12 +19,6 @@ function SignIn() {
     event.preventDefault();
     console.log("hello");
     console.log(userId);
-    // if (userId === "1") {
-    //   navigate(fromPage);
-    // }
-    // if (userId === '2'){
-    //   setError("Invalid id or password!");
-    // }
     const response = await store.login(userId, password);
 
     console.log("response.status:   " + response.status);
