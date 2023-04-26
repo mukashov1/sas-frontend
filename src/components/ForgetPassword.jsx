@@ -31,7 +31,7 @@ function ForgotPassword({ onCancel }) {
         </form></>
 
       ) : (<div className="message">{message}</div>)}
-      <button type="button" onClick={handleCancel} style={{margin: "10px auto"}}>Cancel</button>
+      <button type="button" onClick={handleCancel} style={{margin: "10px auto"}}>Return</button>
     </div>
   );
 }

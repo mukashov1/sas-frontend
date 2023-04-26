@@ -31,7 +31,10 @@ function SignIn() {
         navigate("/admin");
       }
     } else {
-      setError("Invalid id or password!");
+      if (response.message === "Непредвиденная ошибка") {
+        setError("Please enter the ID")
+      } else
+        setError(response.message);
     }
   };
 
