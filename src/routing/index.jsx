@@ -20,9 +20,10 @@ export const UserContext = createContext();
 const store = new Store();
 
 export const MyRoutes = observer(() => {
-  useEffect(() => {
-    localStorage.setItem("user", JSON.stringify(store.user));
-  }, []);
+  // useEffect(() => {
+  //   localStorage.setItem("user", JSON.stringify(store.user));
+  //   console.log("Inside routing yseEffect triggered:  ")
+  //  }, []);
 
   useEffect(() => {
     if (localStorage.getItem("token")) {

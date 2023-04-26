@@ -13,11 +13,10 @@ import { UserContext } from "../routing/index.jsx";
 
 export default function Navbar() {
   const { store } = useContext(UserContext);
-  const role = store.role
-  console.log(role)
+ 
   let menu;
 
-  if (role === 'student') {
+  if (store.user.role === 'student') {
     menu = <div className="menu">
       <NavLink end to={'/student'} ><AiFillHome />    Dashboard</NavLink>
       <NavLink to={'/student/statistics'} ><ImStatsDots />    Statistics</NavLink>
@@ -26,7 +25,7 @@ export default function Navbar() {
       <NavLink to={'/student/settings'} ><IoMdSettings />    Settings</NavLink>
       <NavLink to={'/'} style={{ color: '#ff0000' }}><BiLogOut />    Log out</NavLink>
     </div>;
-  } else if (role === 'admin') {
+  } else if (store.user.role === 'admin') {
     menu = <div className="menu">
       <NavLink end to={'/admin'} ><ImStatsDots />    Statisticss</NavLink>
       <NavLink to={'/admin/reason'} ><HiClipboardList />    Absence Reason</NavLink>
@@ -38,7 +37,7 @@ export default function Navbar() {
   return (
     <div className="navbar">
       <img src={logo} alt="logo" style={{ width: 300 + "px" }} />
-      <div className={`profile ${role} `}>
+      <div className={`profile ${store.user.role} `}>
         <i>
           <FaUserCircle />
         </i>
@@ -46,7 +45,7 @@ export default function Navbar() {
           <h3 className="name">
             {store.user.firstName} {store.user.lastName}
           </h3>
-          <p className="status">{role}</p>
+          <p className="status">{store.user.role}</p>
         </div>
       </div>
       {menu}
