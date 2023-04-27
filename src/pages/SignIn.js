@@ -18,8 +18,6 @@ function SignIn() {
 
   const handleLogin = async (event) => {
     event.preventDefault();
-    console.log("hello");
-    console.log(userId);
     const response = await store.login(userId, password);
     const lessons = await AttendanceService.lessons(userId);
 
@@ -38,7 +36,6 @@ function SignIn() {
         navigate("/admin");
       }
       localStorage.setItem("user", JSON.stringify(store.user));
-      console.log("Login User: " + Object.keys(store.user))
     } else {
       if (response.message === "Непредвиденная ошибка") {
         setError("Please enter the ID")
