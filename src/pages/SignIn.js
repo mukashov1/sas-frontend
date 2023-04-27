@@ -4,6 +4,7 @@ import "../styles/SignIn.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { UserContext } from "../routing/index.jsx";
 import ForgetPassword from "../components/ForgetPassword";
+import AttendanceService from "../services/AttendanceService";
 
 function SignIn() {
   const navigate = useNavigate();
@@ -20,8 +21,14 @@ function SignIn() {
     console.log("hello");
     console.log(userId);
     const response = await store.login(userId, password);
+    const lessons = await AttendanceService.lessons(userId);
 
-    // console.log("response.status:   " + response.ok);
+    if (lessons && lessons.status === 200) {
+      localStorage.setItem("lessons", JSON.stringify(lessons.data));
+    } else {
+      console.log("Lessons do not come!!!")
+    }
+
     if (response && response.status === 200) {
       if (store.user.role === 'student') {
         navigate("/student");
@@ -30,6 +37,8 @@ function SignIn() {
 
         navigate("/admin");
       }
+      localStorage.setItem("user", JSON.stringify(store.user));
+      console.log("Login User: " + Object.keys(store.user))
     } else {
       if (response.message === "Непредвиденная ошибка") {
         setError("Please enter the ID")

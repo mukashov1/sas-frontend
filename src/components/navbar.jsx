@@ -10,42 +10,49 @@ import { FaUserCircle } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import { UserContext } from "../routing/index.jsx";
+import store from '../store.js'
 
 export default function Navbar() {
-  const { store } = useContext(UserContext);
- 
+  // const { store } = useContext(UserContext);
+  const user = JSON.parse(localStorage.getItem('user'))
+  console.log("NavBar User:" + Object.values(user))
+  console.log("Inside navbar:")
+  console.log(store.user)
   let menu;
 
-  if (store.user.role === 'student') {
+  if (user.role === 'student') {
     menu = <div className="menu">
       <NavLink end to={'/student'} ><AiFillHome />    Dashboard</NavLink>
       <NavLink to={'/student/statistics'} ><ImStatsDots />    Statistics</NavLink>
       <NavLink to={'/student/messages'} ><MdMessage />    Messages</NavLink>
       <NavLink to={'/student/reason'} ><HiClipboardList />    Absence Reason</NavLink>
       <NavLink to={'/student/settings'} ><IoMdSettings />    Autorize</NavLink>
-      <NavLink to={'/'} style={{ color: '#ff0000' }}><BiLogOut />    Log out</NavLink>
+      <NavLink to={'/'} style={{ color: '#ff0000' }} onClick={handleLogOut}><BiLogOut />    Log out</NavLink>
     </div>;
-  } else if (store.user.role === 'admin') {
+  } else if (user.role === 'admin') {
     menu = <div className="menu">
       <NavLink end to={'/admin'} ><ImStatsDots />    Statisticss</NavLink>
       <NavLink to={'/admin/reason'} ><HiClipboardList />    Absence Reason</NavLink>
-      <NavLink to={'/'} style={{ color: '#ff0000' }}><BiLogOut />    Log out</NavLink>
+      <NavLink to={'/'} style={{ color: '#ff0000' }} onClick={handleLogOut}><BiLogOut />    Log out</NavLink>
     </div>;
   }
 
-  console.log(store.user);
+  function handleLogOut() {
+    localStorage.clear()
+  }
+
   return (
     <div className="navbar">
       <img src={logo} alt="logo" style={{ width: 300 + "px" }} />
-      <div className={`profile ${store.user.role} `}>
+      <div className={`profile ${user.role} `}>
         <i>
           <FaUserCircle />
         </i>
         <div className="title">
           <h3 className="name">
-            {store.user.firstName} {store.user.lastName}
+            {user.firstName} {user.lastName}
           </h3>
-          <p className="status">{store.user.role}</p>
+          <p className="status">{user.role}</p>
         </div>
       </div>
       {menu}

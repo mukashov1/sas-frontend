@@ -1,9 +1,6 @@
 import axios from "axios";
-// import { AuthResponse } from "../models/response/AuthResponse";
-// import { store } from "../store";
-// import { IUser } from "../models/IUser";
 
-export const API_URL = `https://sasserver.software/api`;
+export const API_URL = `http://localhost:7000/api/`;
 
 const $api = axios.create({
   withCredentials: true,

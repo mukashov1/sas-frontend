@@ -2,7 +2,7 @@ import { makeAutoObservable } from "mobx";
 import AutService from "./services/AuthService";
 import axios from "axios";
 import UserService from "./services/UserService";
-export default class Store {
+class Store {
   user = {};
   isAuth = false;
   isLoading = false;
@@ -10,6 +10,12 @@ export default class Store {
   role = 'student'
   constructor() {
     makeAutoObservable(this);
+    console.log("we are inside of constructor")
+    const savedUser = localStorage.getItem("user");
+    if (savedUser) {
+      this.setUser(savedUser);
+      console.log("user is set")
+    }
   }
 
   setAuth(bool) {
@@ -18,8 +24,7 @@ export default class Store {
 
   setUser(user) {
     this.user = user;
-    localStorage.setItem("user", JSON.stringify(user));
-    console.log("Inside store useEffect triggered:  ")
+
   }
   setLoading(bool) {
     this.isLoading = bool;
@@ -27,12 +32,9 @@ export default class Store {
 
   async login(userId, password) {
     try {
-      console.log("we are inside of login");
       const response = await AutService.login(userId, password);
-      console.log("WE " + response.data.user);
       localStorage.setItem("token", response.data.accessToken);
       this.setAuth(true);
-      console.log("Inside store:  " + response.data.user)
       this.setUser(response.data.user);
       return response;
     } catch (error) {
@@ -94,3 +96,6 @@ export default class Store {
     }
   }
 }
+
+const store = new Store()
+export default store;

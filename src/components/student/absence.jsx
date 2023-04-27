@@ -20,6 +20,11 @@ export default function Absence() {
     setShowSchedule(true);
   };
 
+  console.log("POST: before")
+  // const response = await AttendanceService.lessons("200107119");
+  console.log("POST: after")
+  // console.log('ABSENCE  studentId  ' + JSON.parse(localStorage.getItem('user')).studentId + " responce: " + response)
+
   return (
     <div className="main">
       <h2>Dashboard</h2>

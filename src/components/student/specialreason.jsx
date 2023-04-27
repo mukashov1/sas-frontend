@@ -5,6 +5,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { AiOutlineCloudUpload } from 'react-icons/ai';
 import $api from "../../http/api";
 import axios from 'axios'
+import SpecialReasonService from '../../services/SpecialReasonService';
 
 
 export default function Specialreason() {
@@ -22,46 +23,50 @@ export default function Specialreason() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-    
-        // Convert file to base64
-        const reader = new FileReader();
-        reader.readAsDataURL(selectedFile);
-        reader.onload = async () => {
-            const base64File = reader.result;
-            // console.log(base64File)
-            // Prepare form data
-            const formData = new FormData();
-            formData.append("startDate", startDate.toISOString());
-            formData.append("endDate", endDate.toISOString());
-            formData.append("selectedOption", selectedOption);
-            formData.append("document", base64File);
-            formData.append("comment", comment);
-    
-            try {
-                const response = await fetch("https://sasserver.software/api/recordSpecialReason", {
-                    method: "POST",
-                    body: formData,
-                });
-    
-                if (response.ok) {
-                    alert("Form submitted successfully!");
-                    setStartDate(new Date());
-                    setEndDate(new Date());
-                    setSelectedOption("Illness");
-                    setSelectedFile(null);
-                    setSelectedName("");
-                    setComment("");
-                    setIsButtonEnabled(true);
-                } else {
-                    alert("Form submission failed.");
-                }
-            } catch (error) {
-                console.error(error);
-                alert("An error occurred while submitting the form.");
+
+        // Prepare form data
+        // const formData = new FormData();
+        // formData.append("studentId", localStorage.getItem('user').studentId)
+        // formData.append("fromDate", startDate.toISOString());
+        // formData.append("toDate", endDate.toISOString());
+        // formData.append("type", selectedOption);
+        // formData.append("file", selectedFile);
+        // formData.append("comment", comment);
+
+        try {
+            console.log('REASON: before')
+            console.log("REASON: " + startDate.toUTCString())
+            console.log("REASON: " + startDate.toISOString())
+            console.log("REASON: " + startDate.toLocaleString().split(",")[0])
+            // console.log("REASON: formdata " + Object.values(formData))
+            const response = await axios.post("http://localhost:7000/api/recordSpecialReason", {
+                "studentId": JSON.parse(localStorage.getItem('user')).studentId,
+                "fromDate": startDate.toLocaleString().split(",")[0],
+                "toDate": endDate.toLocaleString().split(",")[0],
+                "type": selectedOption,
+                "file": selectedFile,
+                "comment": comment
+            });
+            console.log("REASON: after")
+            if (response.status === 200) {
+                alert("Form submitted successfully!");
+                setStartDate(new Date());
+                setEndDate(new Date());
+                setSelectedOption("Illness");
+                setSelectedFile(null);
+                setSelectedName("");
+                setComment("");
+                setIsButtonEnabled(true);
+            } else {
+                alert("Form submission failed.");
             }
-        };
+        } catch (error) {
+            console.error(error);
+            alert("An error occurred while submitting the form.");
+        }
     };
-    
+
+
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];

@@ -1,8 +1,8 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-import { createContext, useEffect } from "react";
+import { createContext, useEffect, useContext } from "react";
 
 import { observer } from "mobx-react-lite";
-import Store from "../store.js";
+import store from "../store.js";
 
 import Main from "../pages/Main";
 import Login from "../pages/SignIn";
@@ -16,14 +16,16 @@ import AdminStatistics from '../components/admin/adminStatistics.jsx'
 import AdminReason from '../components/admin/SpecialReason.jsx'
 
 export const UserContext = createContext();
+// const store = new Store()
+// export const UserContext = createContext({ store: store });
 
-const store = new Store();
 
 export const MyRoutes = observer(() => {
-  // useEffect(() => {
-  //   localStorage.setItem("user", JSON.stringify(store.user));
-  //   console.log("Inside routing yseEffect triggered:  ")
-  //  }, []);
+  // const { store } = useContext(UserContext);
+  useEffect(() => {
+    console.log(store.user)
+    console.log("Inside routing useEffect triggered:  ")
+  });
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
