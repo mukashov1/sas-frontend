@@ -20,14 +20,17 @@ function SignIn() {
     event.preventDefault();
     const response = await store.login(userId, password);
     const lessons = await AttendanceService.lessons(userId);
-
+    
     if (lessons && lessons.status === 200) {
       localStorage.setItem("lessons", JSON.stringify(lessons.data));
     } else {
       console.log("Lessons do not come!!!")
     }
-
+    
     if (response && response.status === 200) {
+
+      localStorage.setItem("user", JSON.stringify(response.data.user));
+      
       if (store.user.role === 'student') {
         navigate("/student");
 
@@ -35,7 +38,6 @@ function SignIn() {
 
         navigate("/admin");
       }
-      localStorage.setItem("user", JSON.stringify(store.user));
     } else {
       if (response.message === "Непредвиденная ошибка") {
         setError("Please enter the ID")

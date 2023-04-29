@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const API_URL = `https://sasserver.software/api`;
+export const API_URL = `https://sasserver.software/api/`;
 
 const $api = axios.create({
   withCredentials: true,

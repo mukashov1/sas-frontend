@@ -24,25 +24,12 @@ export default function Specialreason() {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        // Prepare form data
-        // const formData = new FormData();
-        // formData.append("studentId", localStorage.getItem('user').studentId)
-        // formData.append("fromDate", startDate.toISOString());
-        // formData.append("toDate", endDate.toISOString());
-        // formData.append("type", selectedOption);
-        // formData.append("file", selectedFile);
-        // formData.append("comment", comment);
-
         try {
             console.log('REASON: before')
-            console.log("REASON: " + startDate.toUTCString())
-            console.log("REASON: " + startDate.toISOString())
-            console.log("REASON: " + startDate.toLocaleString().split(",")[0])
-            // console.log("REASON: formdata " + Object.values(formData))
             const response = await axios.post("http://localhost:7000/api/recordSpecialReason", {
                 "studentId": JSON.parse(localStorage.getItem('user')).studentId,
-                "fromDate": startDate.toLocaleString().split(",")[0],
-                "toDate": endDate.toLocaleString().split(",")[0],
+                "fromDate": startDate,
+                "toDate": endDate,
                 "type": selectedOption,
                 "file": selectedFile,
                 "comment": comment
@@ -112,8 +99,8 @@ export default function Specialreason() {
                     <input type="file" onChange={handleFileChange} />
                 </div>
                 <div className="comment">
-                    <label>Comment:</label> <br />
-                    <textarea value={comment} onChange={(e) => setComment(e.target.value)} />
+                    <label htmlFor="comment">Comment:</label> <br />
+                    <textarea id="comment" value={comment} onChange={(e) => setComment(e.target.value)} />
                 </div>
                 <button
                     type="submit"

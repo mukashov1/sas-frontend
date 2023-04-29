@@ -1,14 +1,8 @@
 import React, { useState } from 'react';
 import WeeklySchedule from '../student/weeklySchedule';
 
-const subjects = [
-  { name: 'History', absence: '13%', group: '05-N', room: 'F312', status: 'Accepted' },
-  { name: 'Math', absence: '5%', group: '02-P', room: 'B125', status: 'Registrate' },
-  { name: 'Science', absence: '10%', group: '01-N', room: 'C301', status: 'Not active' },
-  { name: 'English', absence: '8%', group: '03-N', room: 'A210', status: 'Not active' },
-];
 const statusClassNames = {
-  "Registrate": 'active',
+  "Entry": 'active',
   "Accepted": 'accepted',
   'Not active': 'not_active',
 };
@@ -19,6 +13,40 @@ export default function Absence() {
   const toggleSchedule = () => {
     setShowSchedule(true);
   };
+
+  const handleStatusClick = (subject) => {
+    if (subject.status === "Entry") {
+      setTimeout(() => {
+        // Set the status to "Exit" after 1 minute
+        const updatedSubjects = subjects.map(s => {
+          if (s.name === subject.name) {
+            return { ...s, status: "Exit" };
+          }
+          return s;
+        });
+        // Update the state with the new subjects array
+        setSubjects(updatedSubjects);
+      }, 0.3 * 60 * 1000); // 1 minute in milliseconds
+    } else if (subject.status === "Exit") {
+      // Set the status back to "Entry" if it was previously "Exit"
+      const updatedSubjects = subjects.map(s => {
+        if (s.name === subject.name) {
+          return { ...s, status: "Entry" };
+        }
+        return s;
+      });
+      // Update the state with the new subjects array
+      setSubjects(updatedSubjects);
+    }
+  };
+  
+
+  const [subjects, setSubjects] = useState([
+    { name: 'History', absence: '13%', group: '05-N', room: 'F312', status: 'Accepted' },
+    { name: 'Math', absence: '5%', group: '02-P', room: 'B125', status: 'Entry' },
+    { name: 'Science', absence: '10%', group: '01-N', room: 'C301', status: 'Not active' },
+    { name: 'English', absence: '8%', group: '03-N', room: 'A210', status: 'Not active' },
+  ]);
 
   console.log("POST: before")
   // const response = await AttendanceService.lessons("200107119");
@@ -42,12 +70,12 @@ export default function Absence() {
             </thead>
             <tbody>
               {subjects.map(subject => (
-                <tr key={subject.name} className={statusClassNames[subject.status]}>
+                <tr key={subject.name} className={statusClassNames[subject.status]} onClick={() => handleStatusClick(subject)}>
                   <td>{subject.name}</td>
                   <td>{subject.absence}</td>
                   <td>{subject.group}</td>
                   <td>{subject.room}</td>
-                  <td><a href="">{subject.status}</a></td>
+                  <td><a href="#">{subject.status}</a></td>
                 </tr>
               ))}
             </tbody>

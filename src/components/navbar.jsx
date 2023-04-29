@@ -23,7 +23,7 @@ export default function Navbar() {
   if (user.role === 'student') {
     menu = <div className="menu">
       <NavLink end to={'/student'} ><AiFillHome />    Dashboard</NavLink>
-      <NavLink to={'/student/statistics'} ><ImStatsDots />    Statistics</NavLink>
+      <NavLink to={'/student/statistics'} ><ImStatsDots />    Attendance</NavLink>
       <NavLink to={'/student/messages'} ><MdMessage />    Messages</NavLink>
       <NavLink to={'/student/reason'} ><HiClipboardList />    Absence Reason</NavLink>
       <NavLink to={'/student/settings'} ><IoMdSettings />    Autorize</NavLink>
@@ -31,7 +31,7 @@ export default function Navbar() {
     </div>;
   } else if (user.role === 'admin') {
     menu = <div className="menu">
-      <NavLink end to={'/admin'} ><ImStatsDots />    Statisticss</NavLink>
+      <NavLink end to={'/admin'} ><ImStatsDots />    Attendance</NavLink>
       <NavLink to={'/admin/reason'} ><HiClipboardList />    Absence Reason</NavLink>
       <NavLink to={'/'} style={{ color: '#ff0000' }} onClick={handleLogOut}><BiLogOut />    Log out</NavLink>
     </div>;
