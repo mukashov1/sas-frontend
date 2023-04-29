@@ -26,7 +26,7 @@ export default function Specialreason() {
 
         try {
             console.log('REASON: before')
-            const response = await axios.post("http://localhost:7000/api/recordSpecialReason", {
+            const response = await axios.post("http://sasserver.software/api/recordSpecialReason", {
                 "studentId": JSON.parse(localStorage.getItem('user')).studentId,
                 "fromDate": startDate,
                 "toDate": endDate,

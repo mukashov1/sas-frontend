@@ -3,43 +3,74 @@ import WeeklySchedule from '../student/weeklySchedule';
 
 const statusClassNames = {
   "Entry": 'active',
+  "Exit": 'active',
   "Accepted": 'accepted',
+  "Absent": 'absent',
   'Not active': 'not_active',
+  "In Class": 'active',
 };
 
 export default function Absence() {
   const [showSchedule, setShowSchedule] = useState(false);
+  const [timers, setTimers] = useState({});
 
   const toggleSchedule = () => {
     setShowSchedule(true);
   };
 
   const handleStatusClick = (subject) => {
-    if (subject.status === "Entry") {
-      setTimeout(() => {
-        // Set the status to "Exit" after 1 minute
-        const updatedSubjects = subjects.map(s => {
-          if (s.name === subject.name) {
-            return { ...s, status: "Exit" };
-          }
-          return s;
-        });
-        // Update the state with the new subjects array
-        setSubjects(updatedSubjects);
-      }, 0.3 * 60 * 1000); // 1 minute in milliseconds
-    } else if (subject.status === "Exit") {
-      // Set the status back to "Entry" if it was previously "Exit"
+    if (subject.status === "Entry" && !subject.timerRunning) {
       const updatedSubjects = subjects.map(s => {
         if (s.name === subject.name) {
-          return { ...s, status: "Entry" };
+          return { ...s, timerRunning: true, status: "In Class" };
         }
         return s;
       });
-      // Update the state with the new subjects array
+      setSubjects(updatedSubjects);
+
+      setTimeout(() => {
+        const updatedSubjects = subjects.map(s => {
+          if (s.name === subject.name) {
+            return { ...s, status: "Exit", timerRunning: false };
+          }
+          return s;
+          console.log(s.status)
+        });
+        setSubjects(updatedSubjects);
+
+        const exitTimer = setTimeout(() => {
+          const updatedSubjects = subjects.map(s => {
+            if (s.name === subject.name) {
+              return { ...s, status: "Absent" };
+            }
+            return s;
+          });
+          setSubjects(updatedSubjects);
+        }, 10 * 1000);
+
+        const subjectsWithTimer = subjects.map(s => {
+          if (s.name === subject.name) {
+            return { ...s, exitTimer };
+          }
+          return s;
+        });
+        setSubjects(subjectsWithTimer);
+      }, 10 * 1000);
+    } else if (subject.status === "Exit") {
+      clearTimeout(subject.exitTimer);
+
+      const updatedSubjects = subjects.map(s => {
+        if (s.name === subject.name) {
+          return { ...s, status: "Accepted" };
+        }
+        return s;
+      });
       setSubjects(updatedSubjects);
     }
   };
-  
+
+
+
 
   const [subjects, setSubjects] = useState([
     { name: 'History', absence: '13%', group: '05-N', room: 'F312', status: 'Accepted' },
@@ -47,11 +78,6 @@ export default function Absence() {
     { name: 'Science', absence: '10%', group: '01-N', room: 'C301', status: 'Not active' },
     { name: 'English', absence: '8%', group: '03-N', room: 'A210', status: 'Not active' },
   ]);
-
-  console.log("POST: before")
-  // const response = await AttendanceService.lessons("200107119");
-  console.log("POST: after")
-  // console.log('ABSENCE  studentId  ' + JSON.parse(localStorage.getItem('user')).studentId + " responce: " + response)
 
   return (
     <div className="main">
@@ -75,10 +101,11 @@ export default function Absence() {
                   <td>{subject.absence}</td>
                   <td>{subject.group}</td>
                   <td>{subject.room}</td>
-                  <td><a href="#">{subject.status}</a></td>
+                  <td><a href="#" style={{ pointerEvents: subject.timerRunning ? 'none' : 'auto' }}>{subject.status}</a></td>
                 </tr>
               ))}
             </tbody>
+
           </table>
           <button onClick={toggleSchedule}>Show Week Schedule</button>
         </>

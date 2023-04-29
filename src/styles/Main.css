@@ -183,6 +183,12 @@ input {
   color: #50abff;
 }
 
+.main table tr :last-child  {
+  width: 110px;
+  margin: 0;
+  /* background: red; */
+}
+
 .main table tbody td {
   padding: 6px 20px;
   line-height: 40px;
@@ -222,8 +228,21 @@ input {
   border-bottom-right-radius: 20px;
 }
 
+.main table tbody tr a {
+  display: inline-table;
+  width: 100%;
+}
+
+.main table tbody tr a:disabled {
+  background: initial;
+}
+
 .main table tbody tr.accepted a {
   background: #7fed6e;
+}
+
+.main table tbody tr.absent a {
+  background: red;
 }
 
 .main table tbody tr.active a {
