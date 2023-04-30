@@ -20,7 +20,7 @@ export default function Navbar() {
   console.log(store.user)
   let menu;
 
-  if (user.role === 'student') {
+  if (user.role === 'Student') {
     menu = <div className="menu">
       <NavLink end to={'/student'} ><AiFillHome />    Dashboard</NavLink>
       <NavLink to={'/student/statistics'} ><ImStatsDots />    Attendance</NavLink>
@@ -29,7 +29,7 @@ export default function Navbar() {
       <NavLink to={'/student/settings'} ><IoMdSettings />    Autorize</NavLink>
       <NavLink to={'/'} style={{ color: '#ff0000' }} onClick={handleLogOut}><BiLogOut />    Log out</NavLink>
     </div>;
-  } else if (user.role === 'admin') {
+  } else if (user.role === 'Admin') {
     menu = <div className="menu">
       <NavLink end to={'/admin'} ><ImStatsDots />    Attendance</NavLink>
       <NavLink to={'/admin/reason'} ><HiClipboardList />    Absence Reason</NavLink>
