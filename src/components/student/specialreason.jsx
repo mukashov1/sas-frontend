@@ -3,9 +3,7 @@ import { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { AiOutlineCloudUpload } from 'react-icons/ai';
-import $api from "../../http/api";
 import axios from 'axios'
-import SpecialReasonService from '../../services/SpecialReasonService';
 
 
 export default function Specialreason() {
@@ -25,7 +23,6 @@ export default function Specialreason() {
         event.preventDefault();
 
         try {
-            console.log('REASON: before')
             const response = await axios.post("http://sasserver.software/api/recordSpecialReason", {
                 "studentId": JSON.parse(localStorage.getItem('user')).studentId,
                 "fromDate": startDate,
@@ -34,9 +31,8 @@ export default function Specialreason() {
                 "file": selectedFile,
                 "comment": comment
             });
-            console.log("REASON: after")
             if (response.status === 200) {
-                alert("Form submitted successfully!");
+                alert("File submitted successfully!");
                 setStartDate(new Date());
                 setEndDate(new Date());
                 setSelectedOption("Illness");
@@ -48,7 +44,6 @@ export default function Specialreason() {
                 alert("Form submission failed.");
             }
         } catch (error) {
-            console.error(error);
             alert("An error occurred while submitting the form.");
         }
     };
@@ -57,10 +52,13 @@ export default function Specialreason() {
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
-        setSelectedFile(file);
         setSelectedName(file.name);
         setIsButtonEnabled(false);
-        // Additional validation logic
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+            setSelectedFile(reader.result);
+        };
     };
 
     return (
