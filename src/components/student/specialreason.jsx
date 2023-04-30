@@ -29,7 +29,8 @@ export default function Specialreason() {
                 "toDate": endDate,
                 "type": selectedOption,
                 "file": selectedFile,
-                "comment": comment
+                "comment": comment,
+                "fileName": selectedName
             });
             if (response.status === 200) {
                 alert("File submitted successfully!");

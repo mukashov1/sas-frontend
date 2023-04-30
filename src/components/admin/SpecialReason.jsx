@@ -55,7 +55,7 @@ export default function SpecialReason() {
         </thead>
         <tbody>
           {reasons.map((reason, index) => (
-            <tr key={index} onClick={() => setSelectedName({ name: reason.studentId, data: reason.document })}>
+            <tr key={index} onClick={() => setSelectedName({ name: reason.fileName, data: reason.document })}>
               <td>{reason.studentId}</td>
               <td>{reason.reasonType}</td>
               <td>{reason.fromDate}</td>
