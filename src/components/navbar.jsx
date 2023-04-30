@@ -16,7 +16,7 @@ export default function Navbar() {
   // const { store } = useContext(UserContext);
   const user = JSON.parse(localStorage.getItem('user'))
   console.log("NavBar User:" + Object.values(user))
-  console.log("Inside navbar:")
+  console.log("Inside navbar:" + user.role.toLowerCase())
   console.log(store.user)
   let menu;
 
@@ -44,7 +44,7 @@ export default function Navbar() {
   return (
     <div className="navbar">
       <img src={logo} alt="logo" style={{ width: 300 + "px" }} />
-      <div className={`profile ${user.role} `}>
+      <div className={`profile ${user.role.toLowerCase()} `}>
         <i>
           <FaUserCircle />
         </i>

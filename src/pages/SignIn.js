@@ -31,7 +31,7 @@ function SignIn() {
 
       localStorage.setItem("user", JSON.stringify(response.data.user));
       
-      if (store.user.role === 'student') {
+      if (store.user.role === 'Student') {
         navigate("/student");
 
       } else {
