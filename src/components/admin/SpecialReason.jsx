@@ -1,7 +1,19 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import { Buffer } from 'buffer';
 
 export default function SpecialReason() {
   const [selectedName, setSelectedName] = useState(null);
+  const [reasons, setReasons] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = await axios.get("https://sasserver.software/api/reasons");
+      setReasons(response.data);
+    }
+
+    fetchData();
+  }, []);
 
   const handleDownload = (name, data) => {
     const base64String = Buffer.from(data, 'base64').toString('binary')
