@@ -23,7 +23,7 @@ export default function Specialreason() {
         event.preventDefault();
 
         try {
-            const response = await axios.post("http://sasserver.software/api/recordSpecialReason", {
+            const response = await axios.post("https://sasserver.software/api/recordSpecialReason", {
                 "studentId": JSON.parse(localStorage.getItem('user')).studentId,
                 "fromDate": startDate,
                 "toDate": endDate,
