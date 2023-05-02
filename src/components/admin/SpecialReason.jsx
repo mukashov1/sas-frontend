@@ -19,7 +19,7 @@ export default function SpecialReason() {
     const base64String = Buffer.from(data, 'base64').toString('binary')
     const downloadLink = document.createElement("a");
     downloadLink.href = base64String;
-    downloadLink.download = name + ".pdf";
+    downloadLink.download = name;
     downloadLink.click();
   }
 
@@ -57,6 +57,8 @@ export default function SpecialReason() {
           {reasons.map((reason, index) => (
             <tr key={index} onClick={() => setSelectedName({ name: reason.fileName, data: reason.document })}>
               <td>{reason.studentId}</td>
+              <td>{reason.firstName}</td>
+              <td>{reason.lastName}</td>
               <td>{reason.reasonType}</td>
               <td>{reason.fromDate}</td>
               <td><input type="checkbox" /></td>

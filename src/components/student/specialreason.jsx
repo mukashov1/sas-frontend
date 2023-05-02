@@ -14,6 +14,7 @@ export default function Specialreason() {
     const [selectedName, setSelectedName] = useState('');
     const [comment, setComment] = useState('');
     const [isButtonEnabled, setIsButtonEnabled] = useState(true);
+    const user = JSON.parse(localStorage.getItem('user'))
 
     const handleOptionChange = (event) => {
         setSelectedOption(event.target.value);
@@ -24,7 +25,9 @@ export default function Specialreason() {
 
         try {
             const response = await axios.post("https://sasserver.software/api/recordSpecialReason", {
-                "studentId": JSON.parse(localStorage.getItem('user')).studentId,
+                "studentId": user.studentId,
+                "firstName": user.firstName,
+                "lastName": user.lastName,
                 "fromDate": startDate,
                 "toDate": endDate,
                 "type": selectedOption,
