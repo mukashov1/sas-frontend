@@ -53,7 +53,7 @@ input {
   width: 100%;
 }
 
-.Main>div:nth-child(2) {
+.Main > div:nth-child(2) {
   margin-top: 160px;
   margin-left: max(0px, 5%);
   width: 65%;
@@ -183,7 +183,7 @@ input {
   color: #50abff;
 }
 
-.main table tr :last-child  {
+.main table tr :last-child {
   width: 110px;
   margin: 0;
   /* background: red; */
@@ -289,7 +289,6 @@ input {
   padding: 10px 20px;
 }
 
-
 /* <-----------******----------> */
 /*        Subject Statistics     */
 
@@ -297,7 +296,7 @@ input {
   border-right: 2px solid #d9d9d9;
 }
 
-.statistics .subjectStat>div {
+.statistics .subjectStat > div {
   display: grid;
   margin: 60px auto;
 }
@@ -311,10 +310,9 @@ input {
   align-items: center;
 }
 
-.statistics .subjectStat .pieChart>div {
+.statistics .subjectStat .pieChart > div {
   width: 100%;
 }
-
 
 /* <-----------******----------> */
 /*         Special Reason        */
@@ -415,7 +413,7 @@ option {
   gap: 30px;
 }
 
-.messages>h2 {
+.messages > h2 {
   color: #50abff;
   display: flex;
   align-items: center;
@@ -623,7 +621,78 @@ option {
   color: black;
 }
 
-
 .admin_statistics table {
   width: 60%;
+}
+
+/* <-----------******----------> */
+/*        Admin Statistics       */
+
+.admin_reasons {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.admin_reasons table thead tr,
+.admin_reasons tbody tr {
+  display: flex;
+  width: 80%;
+  flex-grow: 1;
+  align-items: center;
+  text-align: center;
+}
+.admin_reasons td,
+.admin_reasons th {
+  flex-basis: 50%;
+}
+
+.admin_reasons table tbody tr td:first-child {
+  color: #50abff;
+}
+
+.admin_reason {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.admin_reason h2 {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  color: #50abff;
+}
+
+.admin_reason .reason_file {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 1.2em;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.admin_reason .reason_file i {
+  display: flex;
+  align-items: center;
+  font-size: 1.5em;
+}
+
+.admin_reason .admin_comment {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 1px solid #50abff;
+  border-top: 1px solid #50abff;
+  min-height: 150px;
+}
+
+.admin_reason .admin_decision {
+  text-align: right;
+}
+
+.admin_reason .admin_decision .deny_btn {
+  background: red;
 }
