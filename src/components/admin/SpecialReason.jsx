@@ -13,7 +13,6 @@ export default function SpecialReason() {
     async function fetchData() {
       const response = await axios.get("https://sasserver.software/api/reasons");
       setReasons(response.data);
-      setSelectedName(response.data[0]);
       console.log("Reason   " + Object.values(reasons[0]))
     }
 
@@ -68,8 +67,6 @@ export default function SpecialReason() {
             <tr key={index}>
               <td onClick={() => setSelectedName(reason)}>{reason.firstName} {reason.lastName}</td>
               <td>{reason.studentId}</td>
-              <td>{reason.firstName}</td>
-              <td>{reason.lastName}</td>
               <td>{reason.reasonType}</td>
             </tr>
           ))}
