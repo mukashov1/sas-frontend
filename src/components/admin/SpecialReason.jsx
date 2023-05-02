@@ -24,7 +24,7 @@ export default function SpecialReason() {
     const base64String = Buffer.from(data, 'base64').toString('binary')
     const downloadLink = document.createElement("a");
     downloadLink.href = base64String;
-    downloadLink.download = name + ".pdf";
+    downloadLink.download = name;
     downloadLink.click();
   }
 
@@ -68,6 +68,8 @@ export default function SpecialReason() {
             <tr key={index}>
               <td onClick={() => setSelectedName(reason)}>{reason.firstName} {reason.lastName}</td>
               <td>{reason.studentId}</td>
+              <td>{reason.firstName}</td>
+              <td>{reason.lastName}</td>
               <td>{reason.reasonType}</td>
             </tr>
           ))}
