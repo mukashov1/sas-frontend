@@ -63,7 +63,9 @@ export default function AdminStatistics() {
             <input type="text" placeholder='search by name, surname, ID' value={individualSearchTerm} onChange={handleIndividualSearchTermChange} />
           </>
         ) : (
-          <><input type="text" value={courseSearchTerm} onChange={handleCourseSearchTermChange} />
+          <>
+            <BsSearch />
+            <input type="text" placeholder='Course' value={courseSearchTerm} onChange={handleCourseSearchTermChange} />
             <label>
               Absence Rate Filter:
               <input type="number" value={absenceRate} onChange={handleAbsenceRateChange} />

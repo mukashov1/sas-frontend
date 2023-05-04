@@ -25,7 +25,7 @@ button {
   border: 0;
   border-radius: 35px;
   color: white;
-  padding: 10px 25px;
+  padding: 10px 20px;
   width: fit-content;
   align-self: flex-end;
 }
@@ -237,19 +237,19 @@ input {
   background: initial;
 }
 
-.main table tbody tr.accepted a {
+.main table tbody tr.accepted button {
   background: #7fed6e;
 }
 
-.main table tbody tr.absent a {
-  background: red;
+.main table tbody tr.absent button {
+background: red;
 }
 
-.main table tbody tr.active a {
+.main table tbody tr.active button {
   background: #50abff;
 }
 
-.main table tbody tr.not_active a {
+.main table tbody tr.not_active button {
   background: #ffb13c;
 }
 
@@ -649,6 +649,7 @@ option {
 
 .admin_reasons table tbody tr td:first-child {
   color: #50abff;
+  cursor: pointer;
 }
 
 .admin_reason {
