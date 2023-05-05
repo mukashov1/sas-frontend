@@ -68,8 +68,8 @@ export default function SpecialReason() {
         <p><b>Comment:</b></p>
         <div className="admin_comment"><p>{comment ? comment : 'No comment'}</p></div>
         <div className="admin_decision">
-          <button className='approve_btn' onClick={handleApprove} disabled={isDisabled}>Approve</button>
-          <button className='deny_btn' onClick={handleDeny} disabled={isDisabled}>Deny</button>
+          <button className='approve_btn' onClick={handleApprove}>Approve</button>
+          <button className='deny_btn' onClick={handleDeny}>Deny</button>
         </div>
       </div>
     )
