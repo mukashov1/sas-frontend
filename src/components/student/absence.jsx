@@ -14,7 +14,8 @@ export default function Absence() {
   const [showSchedule, setShowSchedule] = useState(false);
   const [timers, setTimers] = useState({});
   const [buttonClicked, setButtonClicked] = useState(false);
-
+  const [subjects, setSubjects] = useState(JSON.parse(localStorage.getItem('lessons')))
+  console.log("LOCAL: " + Object.values(subjects[1]))
   const toggleSchedule = () => {
     setShowSchedule(true);
   };
@@ -45,9 +46,10 @@ export default function Absence() {
                 }
                 return s;
               });
+              localStorage.setItem('lessons', JSON.stringify(updatedSubjects.map(({ timerRunning, ...rest }) => rest)));
               return updatedSubjects;
             });
-          }, 10 * 1000);
+          }, 5 * 1000);
           const subjectsWithTimer = updatedSubjects.map(s => {
             if (s.name === subject.name) {
               return { ...s, exitTimer };
@@ -67,6 +69,7 @@ export default function Absence() {
         return s;
       });
       setSubjects(updatedSubjects);
+      localStorage.setItem('lessons', JSON.stringify(updatedSubjects.map(({ timerRunning, ...rest }) => rest)));
     }
   };
   const handleButtonClick = (subject) => {
@@ -83,13 +86,6 @@ export default function Absence() {
     setSubjects(updatedSubjects);
   };
 
-  const [subjects, setSubjects] = useState([
-    { name: 'History', absence: '13%', group: '05-N', room: 'F312', status: 'Accepted' },
-    { name: 'Math', absence: '5%', group: '02-P', room: 'B125', status: 'Entry' },
-    { name: 'Science', absence: '10%', group: '01-N', room: 'C301', status: 'Not active' },
-    { name: 'English', absence: '8%', group: '03-N', room: 'A210', status: 'Not active' },
-  ]);
-
   return (
     <div className="main">
       <h2>Dashboard</h2>
@@ -98,8 +94,8 @@ export default function Absence() {
           <table>
             <thead>
               <tr>
+                <th>Course Code</th>
                 <th>SUBJECT</th>
-                <th>ABSENCE</th>
                 <th>GROUP</th>
                 <th>ROOM</th>
                 <th>STATUS</th>
@@ -108,8 +104,8 @@ export default function Absence() {
             <tbody>
               {subjects.map(subject => (
                 <tr key={subject.name} className={statusClassNames[subject.status]}>
+                  <td>{subject.courseId}</td>
                   <td>{subject.name}</td>
-                  <td>{subject.absence}</td>
                   <td>{subject.group}</td>
                   <td>{subject.room}</td>
                   <td><button onClick={() => handleStatusClick(subject)}>{subject.status}</button></td>

@@ -21,7 +21,7 @@ function SignIn() {
     const lessons = await AttendanceService.lessons(userId);
     
     if (lessons && lessons.status === 200) {
-      localStorage.setItem("lessons", JSON.stringify(lessons.data));
+      // localStorage.setItem("lessons", JSON.stringify(lessons.data));
     } else {
       console.log("Lessons do not come!!!")
     }
@@ -29,10 +29,16 @@ function SignIn() {
     if (response && response.status === 200) {
 
       localStorage.setItem("user", JSON.stringify(response.data.user));
+      const subjects = [
+        { courseId : "CSS 245", name: 'History', group: '05-N', room: 'F312', status: 'Accepted' },
+        { courseId : "CSS 315", name: 'Math', group: '02-P', room: 'B125', status: 'Entry' },
+        { courseId : "CSS 216", name: 'Science', group: '01-N', room: 'C301', status: 'Not active' },
+        { courseId : "MDE 315", name: 'English',  group: '03-N', room: 'A210', status: 'Not active' },
+      ];
+      localStorage.setItem('lessons',JSON.stringify(subjects))
       
       if (store.user.role === 'Student') {
         navigate("/student");
-
       } else {
 
         navigate("/admin");
