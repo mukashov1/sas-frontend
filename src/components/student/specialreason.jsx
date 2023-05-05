@@ -13,7 +13,7 @@ export default function Specialreason() {
     const [selectedFile, setSelectedFile] = useState(null);
     const [selectedName, setSelectedName] = useState('');
     const [comment, setComment] = useState('');
-    const [isButtonEnabled, setIsButtonEnabled] = useState(true);
+    const [isButtonEnabled, setIsButtonEnabled] = useState(false);
     const user = JSON.parse(localStorage.getItem('user'))
 
     const handleOptionChange = (event) => {
@@ -57,7 +57,7 @@ export default function Specialreason() {
     const handleFileChange = (event) => {
         const file = event.target.files[0];
         setSelectedName(file.name);
-        setIsButtonEnabled(false);
+        setIsButtonEnabled(true);
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = () => {
@@ -70,15 +70,15 @@ export default function Specialreason() {
             <h2>Manage Special Reason for Absence</h2>
             <form action="POST" onSubmit={handleSubmit}>
                 <div className="date_chooser">
-                    <label>
+                    <label data-testid="start-date-label">
                         From :
                         <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
                     </label>
-                    <label>
+                    <label data-testid="end-date-label">
                         To :
                         <DatePicker selected={endDate} onChange={(date) => setEndDate(date)} />
                     </label>
-                    <label>
+                    <label  data-testid="select-label">
                         <select value={selectedOption} onChange={handleOptionChange} style={{ background: '#6DCF4B' }}>
                             <option value="Illness" style={{ background: '#6DCF4B' }}>
                                 Illness
@@ -98,7 +98,7 @@ export default function Specialreason() {
                     </i>
                     <h3>{selectedName || 'Click box to upload'}</h3>
                     <p>Maximum file size 10mb</p>
-                    <input type="file" onChange={handleFileChange} />
+                    <input type="file" onChange={handleFileChange} data-testid="file-input" />
                 </div>
                 <div className="comment">
                     <label htmlFor="comment">Comment:</label> <br />
@@ -106,7 +106,7 @@ export default function Specialreason() {
                 </div>
                 <button
                     type="submit"
-                    disabled={isButtonEnabled}
+                    disabled={!isButtonEnabled}
                     onClick={handleSubmit}
                     className="submit_btn btn"
                 >

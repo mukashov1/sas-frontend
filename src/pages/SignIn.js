@@ -67,12 +67,14 @@ function SignIn() {
               placeholder="ID"
               value={userId}
               onChange={(e) => setUserId(e.target.value)}
+              data-testid="id-input"
             />
             <input
               type="password"
               placeholder="PASSWORD"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              data-testid="password-input"
             />
             <button type="submit">Log In</button>
             <div className="forgotPassword" onClick={handleForgotPassword}>

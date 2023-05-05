@@ -1,14 +1,15 @@
 import React from 'react';
 import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import axios from 'axios';
+import $api from '../http/api';
 import Specialreason from '../components/student/specialreason';
 
-jest.mock('axios');
+jest.mock('../http/api');
 
 describe('Specialreason component', () => {
     beforeEach(() => {
         render(<Specialreason />);
-        axios.post.mockClear();
+        $api.post.mockClear();
     });
 
     it('should display the form with default values', () => {

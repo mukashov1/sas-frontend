@@ -63,24 +63,26 @@ describe('<SignIn />', () => {
   it('submits the form and calls store.login', async () => {
     store.login.mockResolvedValue({ status: 200, data: { user: {} } });
     AttendanceService.lessons.mockResolvedValue({ status: 200, data: [] });
-
+  
     render(
       <UserContext.Provider value={{ store }}>
         <SignIn />
       </UserContext.Provider>
     );
-
-    const idInput = screen.getByPlaceholderText('ID');
-    const passwordInput = screen.getByPlaceholderText('PASSWORD');
+  
+    const idInput = screen.getByTestId('id-input');
+    const passwordInput = screen.getByTestId('password-input');
     const submitButton = screen.getByText('Log In');
-
-    userEvent.type(idInput, 'test-id');
-    userEvent.type(passwordInput, 'test-password');
-    userEvent.click(submitButton);
-
-    await waitFor(() => expect(store.login).toHaveBeenCalledWith('test-id', 'test-password'));
+  
+    // Use the 'fireEvent.change' method to set the input values
+    fireEvent.change(idInput, { target: { value: '200107119' } });
+    fireEvent.change(passwordInput, { target: { value: 'mystrong1' } });
+  
+    fireEvent.click(submitButton);
+  
+    await waitFor(() => expect(store.login).toHaveBeenCalledWith('200107119', 'mystrong1'));
   });
-
+  
   it('opens and closes the ForgetPassword component', () => {
     render(
       <UserContext.Provider value={{ store }}>
