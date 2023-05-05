@@ -83,17 +83,18 @@ export default function SpecialReason() {
             <th>Name</th>
             <th>ID</th>
             <th>Reason</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody>
-          {reasons.map((reason, index) => (
-            reason.status === "REQUESTED" && (
-              <tr key={index}>
-                <td onClick={() => setSelectedName(reason)}>{reason.firstName} {reason.lastName}</td>
-                <td>{reason.studentId}</td>
-                <td>{reason.reasonType}</td>
-              </tr>
-            )
+          {reasons.map((reason, index) => ((
+            <tr key={index}>
+              <td onClick={() => setSelectedName(reason)}>{reason.firstName} {reason.lastName}</td>
+              <td>{reason.studentId}</td>
+              <td>{reason.reasonType}</td>
+              <td>{reason.status}</td>
+            </tr>
+          )
           ))}
         </tbody>
       </table>
