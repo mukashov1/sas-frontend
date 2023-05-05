@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { BsFillXCircleFill, BsCheckCircleFill, BsHandIndexThumbFill, BsFillFileEarmarkPdfFill } from 'react-icons/bs'
-import { FaAngleDown } from 'react-icons/fa'
+import { FaAngleDown, FaParking } from 'react-icons/fa'
 
 const subjects = [
   { name: 'History', present: 15, absent: 2, attendance: ['present', 'absent', 'present', 'present', 'absent', 'present', 'present', 'present', 'present', 'present'] },
@@ -29,7 +29,7 @@ function Dropdown({ subject, dates }) {
             {dates.map((date, index) => (
               <td key={date}>
                 {subject.attendance[index] === 'manual' ? (
-                  <i style={{ color: 'green' }}><BsHandIndexThumbFill /></i>
+                  <i style={{ color: 'blue' }}><FaParking /></i>
                 ) : subject.attendance[index] === 'present' ? (
                   <i style={{ color: 'green' }}><BsCheckCircleFill /></i>
                 ) : subject.attendance[index] === 'reason' ? (
