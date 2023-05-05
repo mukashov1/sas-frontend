@@ -1,20 +1,19 @@
 import React, { useState } from 'react'
-import { BsFillXCircleFill, BsCheckCircleFill } from 'react-icons/bs'
-import SubjectStat from './subjectStatistics'
+import { BsFillXCircleFill, BsCheckCircleFill, BsHandIndexThumbFill, BsFillFileEarmarkPdfFill } from 'react-icons/bs'
 import { FaAngleDown } from 'react-icons/fa'
 
 const subjects = [
-  { name: 'History', present: 15, absent: 2 , attendance: ['present', 'absent', 'present', 'present', 'absent', 'present', 'present', 'present', 'present', 'present']},
-  { name: 'Math', present: 10, absent: 5 , attendance: ['present', 'absent', 'present', 'present', 'absent', 'present', 'present', 'present', 'present', 'present']},
-  { name: 'Programming', present: 1, absent: 3 , attendance: ['present', 'absent', 'present', 'present', 'absent', 'present', 'present', 'present', 'present', 'present']},
-  { name: 'Design Pattern', present: 4, absent: 1 , attendance: ['present', 'absent', 'present', 'present', 'absent', 'present', 'present', 'present', 'present', 'present']},
-  { name: 'DBMS1', present: 9, absent: 2 , attendance: ['present', 'absent', 'present', 'present', 'absent', 'present', 'present', 'present', 'present', 'present']},
-  { name: 'DBMS2', present: 5, absent: 6 , attendance: ['present', 'absent', 'present', 'present', 'absent', 'present', 'present', 'present', 'present', 'present']},
+  { name: 'History', present: 15, absent: 2, attendance: ['present', 'absent', 'present', 'present', 'absent', 'present', 'present', 'present', 'present', 'present'] },
+  { name: 'Math', present: 10, absent: 5, attendance: ['present', 'manual', 'present', 'present', 'absent', 'present', 'present', 'present', 'present', 'present'] },
+  { name: 'Programming', present: 1, absent: 3, attendance: ['present', 'absent', 'present', 'present', 'absent', 'present', 'present', 'present', 'present', 'present'] },
+  { name: 'Design Pattern', present: 4, absent: 1, attendance: ['present', 'absent', 'present', 'present', 'absent', 'present', 'present', 'present', 'present', 'present'] },
+  { name: 'DBMS1', present: 9, absent: 2, attendance: ['reason', 'absent', 'present', 'present', 'absent', 'present', 'present', 'present', 'present', 'present'] },
+  { name: 'DBMS2', present: 5, absent: 6, attendance: ['present', 'absent', 'present', 'present', 'absent', 'present', 'present', 'present', 'present', 'present'] },
 ]
 
 function Dropdown({ subject, dates }) {
   return (
-    <div style={{overflowX: "auto" }}>
+    <div style={{ overflowX: "auto" }}>
       <table>
         <thead>
           <tr>
@@ -28,7 +27,17 @@ function Dropdown({ subject, dates }) {
           <tr>
             <th>Attendance</th>
             {dates.map((date, index) => (
-              <td key={date}>{subject.attendance[index] === 'present' ? <i style={{ color: 'green' }}><BsCheckCircleFill /></i> : <i style={{ color: 'red' }}><BsFillXCircleFill /></i>}</td>
+              <td key={date}>
+                {subject.attendance[index] === 'manual' ? (
+                  <i style={{ color: 'green' }}><BsHandIndexThumbFill /></i>
+                ) : subject.attendance[index] === 'present' ? (
+                  <i style={{ color: 'green' }}><BsCheckCircleFill /></i>
+                ) : subject.attendance[index] === 'reason' ? (
+                  <i style={{ color: 'green' }}><BsFillFileEarmarkPdfFill /></i>
+                ) : (
+                  <i style={{ color: 'red' }}><BsFillXCircleFill /></i>
+                )}
+              </td>
             ))}
           </tr>
         </tbody>
@@ -78,13 +87,13 @@ export default function Statistics() {
                 <td>{subject.name}</td>
                 <td>{subject.present}</td>
                 <td>{subject.absent}</td>
-                <td>{`${(subject.absent / 15 * 100).toFixed(0)}%`}</td>
+                <td>{${(subject.absent / 15 * 100).toFixed(0)}%}</td>
                 <td><FaAngleDown onClick={() => handleDropdownClick(subject)} /></td>
               </tr>
               {showDropdown && selectedSubject === subject && (
                 <tr>
                   <td colSpan={6} className='col-6'>
-                    <Dropdown subject={subject} dates={['01.03', '02.03', '03.03', '04.03', '05.03', '06.03', '07.03', '08.03', '09.03', '10.03']}/>
+                    <Dropdown subject={subject} dates={['01.03', '02.03', '03.03', '04.03', '05.03', '06.03', '07.03', '08.03', '09.03', '10.03']} />
                   </td>
                 </tr>
               )}

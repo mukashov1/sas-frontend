@@ -1,8 +1,8 @@
-import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { Buffer } from 'buffer';
 import { BsArrowLeft } from 'react-icons/bs'
 import { CgFile } from 'react-icons/cg'
+import $api from '../../http/api';
 
 
 export default function SpecialReason() {
@@ -10,14 +10,13 @@ export default function SpecialReason() {
   const [reasons, setReasons] = useState([]);
 
   useEffect(() => {
-    async function fetchData() {
-      const response = await axios.get("https://sasserver.software/api/reasons");
-      setReasons(response.data);
-      console.log("Reason   " + Object.values(reasons[0]))
-    }
-
     fetchData();
   }, []);
+
+  const fetchData = async () => {
+    const response = await $api.get("/reasons");
+    setReasons(response.data);
+  }
 
   const handleDownload = (name, data) => {
     const base64String = Buffer.from(data, 'base64').toString('binary')
@@ -30,6 +29,30 @@ export default function SpecialReason() {
   const handleReturnClick = () => {
     setSelectedName(null);
   }
+
+  const handleApprove = async () => {
+    try {
+      const updatedReason = { ...selectedName, status: 'APPROVED' };
+      await $api.put(`/reasons/${selectedName.reasonId}`, updatedReason);
+      setSelectedName(null);
+      fetchData();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleDeny = async () => {
+    try {
+      const updatedReason = { ...selectedName, status: 'DENIED' };
+      console.log(selectedName)
+      await $api.put(`/reasons/${selectedName.reasonId}`, updatedReason);
+      setSelectedName(null);
+      fetchData();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
 
   if (selectedName) {
     const { firstName, lastName, studentId, reasonType, comment, fileName, document } = selectedName;
@@ -44,8 +67,8 @@ export default function SpecialReason() {
         <p><b>Comment:</b></p>
         <div className="admin_comment"><p>{comment ? comment : 'No comment'}</p></div>
         <div className="admin_decision">
-          <button className='approve_btn'>Approve</button>
-          <button className='deny_btn'>Deny</button>
+          <button className='approve_btn' onClick={handleApprove}>Approve</button>
+          <button className='deny_btn' onClick={handleDeny}>Deny</button>
         </div>
       </div>
     )
@@ -64,11 +87,13 @@ export default function SpecialReason() {
         </thead>
         <tbody>
           {reasons.map((reason, index) => (
-            <tr key={index}>
-              <td onClick={() => setSelectedName(reason)}>{reason.firstName} {reason.lastName}</td>
-              <td>{reason.studentId}</td>
-              <td>{reason.reasonType}</td>
-            </tr>
+            reason.status === "REQUESTED" && (
+              <tr key={index}>
+                <td onClick={() => setSelectedName(reason)}>{reason.firstName} {reason.lastName}</td>
+                <td>{reason.studentId}</td>
+                <td>{reason.reasonType}</td>
+              </tr>
+            )
           ))}
         </tbody>
       </table>

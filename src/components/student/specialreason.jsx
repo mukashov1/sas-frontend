@@ -3,7 +3,7 @@ import { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { AiOutlineCloudUpload } from 'react-icons/ai';
-import axios from 'axios'
+import $api from '../../http/api';
 
 
 export default function Specialreason() {
@@ -13,7 +13,7 @@ export default function Specialreason() {
     const [selectedFile, setSelectedFile] = useState(null);
     const [selectedName, setSelectedName] = useState('');
     const [comment, setComment] = useState('');
-    const [isButtonEnabled, setIsButtonEnabled] = useState(false);
+    const [isButtonEnabled, setIsButtonEnabled] = useState(true);
     const user = JSON.parse(localStorage.getItem('user'))
 
     const handleOptionChange = (event) => {
@@ -21,12 +21,10 @@ export default function Specialreason() {
     };
 
     const handleSubmit = async (event) => {
-        console.log('handleSubmit called');
         event.preventDefault();
 
-        console.log('Submitting form...');
         try {
-            const response = await axios.post("https://sasserver.software/api/recordSpecialReason", {
+            const response = await $api.post("recordSpecialReason", {
                 "studentId": user.studentId,
                 "firstName": user.firstName,
                 "lastName": user.lastName,
@@ -59,7 +57,7 @@ export default function Specialreason() {
     const handleFileChange = (event) => {
         const file = event.target.files[0];
         setSelectedName(file.name);
-        setIsButtonEnabled(true);
+        setIsButtonEnabled(false);
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = () => {
@@ -72,15 +70,15 @@ export default function Specialreason() {
             <h2>Manage Special Reason for Absence</h2>
             <form action="POST" onSubmit={handleSubmit}>
                 <div className="date_chooser">
-                    <label data-testid="start-date-label">
+                    <label>
                         From :
                         <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
                     </label>
-                    <label data-testid="end-date-label">
+                    <label>
                         To :
                         <DatePicker selected={endDate} onChange={(date) => setEndDate(date)} />
                     </label>
-                    <label  data-testid="select-label">
+                    <label>
                         <select value={selectedOption} onChange={handleOptionChange} style={{ background: '#6DCF4B' }}>
                             <option value="Illness" style={{ background: '#6DCF4B' }}>
                                 Illness
@@ -100,7 +98,7 @@ export default function Specialreason() {
                     </i>
                     <h3>{selectedName || 'Click box to upload'}</h3>
                     <p>Maximum file size 10mb</p>
-                    <input type="file" onChange={handleFileChange} data-testid="file-input" />  
+                    <input type="file" onChange={handleFileChange} />
                 </div>
                 <div className="comment">
                     <label htmlFor="comment">Comment:</label> <br />
@@ -108,7 +106,7 @@ export default function Specialreason() {
                 </div>
                 <button
                     type="submit"
-                    disabled={!isButtonEnabled}
+                    disabled={isButtonEnabled}
                     onClick={handleSubmit}
                     className="submit_btn btn"
                 >
