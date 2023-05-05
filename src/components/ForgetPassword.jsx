@@ -23,7 +23,7 @@ function ForgotPassword({ onCancel }) {
   };
 
   return (
-    <div className="forgot_password" style={{textAlign: 'center'}}>
+    <div className="forgot_password" style={{textAlign: 'center'}} data-testid="forget-password">
       {!isSubmitted ? (
         <><h2>Forgot Password</h2><form onSubmit={handleSubmit}>
           <input type="text" id="userId" value={userId} onChange={handleUserIdChange} placeholder="ID" />
@@ -31,7 +31,7 @@ function ForgotPassword({ onCancel }) {
         </form></>
 
       ) : (<div className="message">{message}</div>)}
-      <button type="button" onClick={handleCancel} style={{margin: "10px auto"}}>Return</button>
+      <button type="button" onClick={handleCancel} style={{margin: "10px auto"}} data-testid="cancel">Return</button>
     </div>
   );
 }

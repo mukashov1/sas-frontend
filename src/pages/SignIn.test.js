@@ -1,119 +1,101 @@
-// import React from "react";
-// import {
-//   render,
-//   screen,
-//   fireEvent,
-//   waitFor,
-//   act,
-// } from "@testing-library/react";
-// import { MemoryRouter } from "react-router-dom";
-// import SignIn from "./SignIn";
-// import { UserContext } from "../routing/index.jsx";
+import React from 'react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
+import userEvent from '@testing-library/user-event';
+import SignIn from '../pages/SignIn';
+import { UserContext } from '../routing/index.jsx';
+import AttendanceService from '../services/AttendanceService';
 
-// // Mock the UserContext
-// const mockContext = {
-//   store: {
-//     login: jest.fn(),
-//     user: {
-//       role: "",
-//     },
-//   },
-// };
+// Mocking useNavigate and useLocation
+jest.mock('react-router-dom', () => ({
+  useNavigate: () => jest.fn(),
+  useLocation: () => ({ pathname: '/signin' }),
+}));
 
-// describe("SignIn component", () => {
-//   beforeEach(() => {
-//     jest.resetAllMocks();
-//   });
+// Mocking AttendanceService.lessons method
+jest.mock('../services/AttendanceService', () => ({
+  lessons: jest.fn(),
+}));
 
-//   test("renders without crashing", () => {
-//     render(
-//       <UserContext.Provider value={mockContext}>
-//         <MemoryRouter>
-//           <SignIn />
-//         </MemoryRouter>
-//       </UserContext.Provider>
-//     );
-//   });
+describe('<SignIn />', () => {
+  const store = {
+    login: jest.fn(),
+    user: {
+      role: 'Student',
+    },
+  };
 
-//   test("handleLogin called when Log In button is clicked", async () => {
-//     render(
-//       <UserContext.Provider value={mockContext}>
-//         <MemoryRouter>
-//           <SignIn />
-//         </MemoryRouter>
-//       </UserContext.Provider>
-//     );
+  beforeEach(() => {
+    AttendanceService.lessons.mockClear();
+    store.login.mockClear();
+  });
 
-//     const userIdInput = screen.getByPlaceholderText("ID");
-//     const passwordInput = screen.getByPlaceholderText("PASSWORD");
-//     const loginButton = screen.getByText("Log In");
+  it('renders the SignIn component', () => {
+    render(
+      <UserContext.Provider value={{ store }}>
+        <SignIn />
+      </UserContext.Provider>
+    );
 
-//     fireEvent.change(userIdInput, { target: { value: "testUserId" } });
-//     fireEvent.change(passwordInput, { target: { value: "testPassword" } });
-//     fireEvent.click(loginButton);
+    expect(screen.getByPlaceholderText('ID')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('PASSWORD')).toBeInTheDocument();
+    expect(screen.getByText('Log In')).toBeInTheDocument();
+    expect(screen.getByText('Forgot password?')).toBeInTheDocument();
+  });
 
-//     await waitFor(() => expect(mockContext.store.login).toHaveBeenCalled());
-//   });
+  it('handles input changes', () => {
+    render(
+      <UserContext.Provider value={{ store }}>
+        <SignIn />
+      </UserContext.Provider>
+    );
 
-//   test("handleForgotPassword opens Forgot Password modal", () => {
-//     render(
-//       <UserContext.Provider value={mockContext}>
-//         <MemoryRouter>
-//           <SignIn />
-//         </MemoryRouter>
-//       </UserContext.Provider>
-//     );
+    const idInput = screen.getByPlaceholderText('ID');
+    const passwordInput = screen.getByPlaceholderText('PASSWORD');
 
-//     const forgotPasswordLink = screen.getByText("Forgot password?");
-//     fireEvent.click(forgotPasswordLink);
+    fireEvent.change(idInput, { target: { value: 'test-id' } });
+    fireEvent.change(passwordInput, { target: { value: 'test-password' } });
 
-//     expect(screen.getByText("Cancel")).toBeInTheDocument();
-//   });
+    expect(idInput.value).toBe('test-id');
+    expect(passwordInput.value).toBe('test-password');
+  });
 
-//   test("handleForgetPasswordCancel closes Forgot Password modal", () => {
-//     render(
-//       <UserContext.Provider value={mockContext}>
-//         <MemoryRouter>
-//           <SignIn />
-//         </MemoryRouter>
-//       </UserContext.Provider>
-//     );
+  it('submits the form and calls store.login', async () => {
+    store.login.mockResolvedValue({ status: 200, data: { user: {} } });
+    AttendanceService.lessons.mockResolvedValue({ status: 200, data: [] });
 
-//     const forgotPasswordLink = screen.getByText("Forgot password?");
-//     fireEvent.click(forgotPasswordLink);
+    render(
+      <UserContext.Provider value={{ store }}>
+        <SignIn />
+      </UserContext.Provider>
+    );
 
-//     const cancelButton = screen.getByText("Cancel");
-//     fireEvent.click(cancelButton);
+    const idInput = screen.getByPlaceholderText('ID');
+    const passwordInput = screen.getByPlaceholderText('PASSWORD');
+    const submitButton = screen.getByText('Log In');
 
-//     expect(cancelButton).not.toBeInTheDocument();
-//   });
+    userEvent.type(idInput, 'test-id');
+    userEvent.type(passwordInput, 'test-password');
+    userEvent.click(submitButton);
 
-//   test("displays error when login fails", async () => {
-//     mockContext.store.login.mockImplementation(() =>
-//       Promise.resolve({ status: 401 })
-//     );
-  
-//     render(
-//       <UserContext.Provider value={mockContext}>
-//         <MemoryRouter>
-//           <SignIn />
-//         </MemoryRouter>
-//       </UserContext.Provider>
-//     );
-  
-//     const userIdInput = screen.getByPlaceholderText("ID");
-//     const passwordInput = screen.getByPlaceholderText("PASSWORD");
-//     const loginButton = screen.getByText("Log In");
-  
-//     fireEvent.change(userIdInput, { target: { value: "testUserId" } });
-//     fireEvent.change(passwordInput, { target: { value: "testPassword" } });
-//     fireEvent.click(loginButton);
-  
-//     await waitFor(() =>
-//       expect(screen.getByText("Invalid id or password!")).toBeInTheDocument()
-//     );
-//   });
-  
+    await waitFor(() => expect(store.login).toHaveBeenCalledWith('test-id', 'test-password'));
+  });
 
-//   // Add more tests as needed
-// });
+  it('opens and closes the ForgetPassword component', () => {
+    render(
+      <UserContext.Provider value={{ store }}>
+        <SignIn />
+      </UserContext.Provider>
+    );
+
+    const forgotPasswordButton = screen.getByText('Forgot password?');
+    fireEvent.click(forgotPasswordButton);
+
+    expect(screen.getByTestId('forget-password')).toBeInTheDocument();
+
+    const cancelButton = screen.getByTestId('cancel');
+    fireEvent.click(cancelButton);
+
+    expect(screen.queryByTestId('forget-password')).not.toBeInTheDocument();
+  });
+});

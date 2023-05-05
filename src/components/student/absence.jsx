@@ -28,52 +28,50 @@ export default function Absence() {
         return s;
       });
       setSubjects(updatedSubjects);
-
-      setTimeout(() => {
-        setSubjects(prevSubjects => {
-          const updatedSubjects = prevSubjects.map(s => {
-            if (s.name === subject.name) {
-              return { ...s, status: "Exit", timerRunning: false };
-            }
-            return s;
-          });
-          const exitTimer = setTimeout(() => {
-            setSubjects(prevSubjects => {
-              const updatedSubjects = prevSubjects.map(s => {
-                if (s.name === subject.name) {
-                  return { ...s, status: "Absent" };
-                }
-                return s;
-              });
-              return updatedSubjects;
-            });
-          }, 10 * 1000);
-          const subjectsWithTimer = updatedSubjects.map(s => {
-            if (s.name === subject.name) {
-              return { ...s, exitTimer };
-            }
-            return s;
-          });
-          return subjectsWithTimer;
+  
+      const exitTimer = setTimeout(() => {
+        const updatedSubjects = subjects.map(s => {
+          if (s.name === subject.name) {
+            return { ...s, status: "Exit" };
+          }
+          return s;
         });
-      }, 10 * 1000);
-    } else if (subject.status === "Exit") {
-      clearTimeout(subject.exitTimer);
-
-      const updatedSubjects = subjects.map(s => {
+        setSubjects(updatedSubjects);
+      }, 10 * 1000); // 10 seconds in milliseconds
+  
+      // Store the exitTimer in the subject's object
+      const subjectsWithTimer = subjects.map(s => {
         if (s.name === subject.name) {
-          return { ...s, status: "Accepted" };
+          return { ...s, exitTimer };
         }
         return s;
       });
-      setSubjects(updatedSubjects);
+      setSubjects(subjectsWithTimer);
+    } else if (subject.status === "Exit") {
+      setButtonClicked(false);
+  
+      const absentTimer = setTimeout(() => {
+        if (!buttonClicked) {
+          const updatedSubjects = subjects.map(s => {
+            if (s.name === subject.name) {
+              return { ...s, status: "Absent" };
+            }
+            return s;
+          });
+          setSubjects(updatedSubjects);
+        }
+      }, 6 * 1000); // 6 seconds in milliseconds
+  
+      // Clear the exitTimer when the button is clicked during the 10 seconds
+      clearTimeout(subject.exitTimer);
     }
-  };
+  };  
+
   const handleButtonClick = (subject) => {
     setButtonClicked(true);
 
     clearTimeout(timers[subject.name]);
-
+  
     const updatedSubjects = subjects.map(s => {
       if (s.name === subject.name) {
         return { ...s, status: "Accepted" };
@@ -82,6 +80,7 @@ export default function Absence() {
     });
     setSubjects(updatedSubjects);
   };
+
 
   const [subjects, setSubjects] = useState([
     { name: 'History', absence: '13%', group: '05-N', room: 'F312', status: 'Accepted' },
@@ -116,7 +115,6 @@ export default function Absence() {
                 </tr>
               ))}
             </tbody>
-
           </table>
           <button onClick={toggleSchedule}>Show Week Schedule</button>
         </>
