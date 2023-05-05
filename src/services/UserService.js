@@ -5,4 +5,8 @@ export default class UserService {
     console.log("fetchUSers");
     return $api.get("/users");
   }
+
+  static fetchLessons() {
+    return $api.get("/lessonsCurrent");
+  }
 }
