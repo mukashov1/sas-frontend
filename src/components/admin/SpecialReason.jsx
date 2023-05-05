@@ -53,6 +53,7 @@ export default function SpecialReason() {
     }
   };
 
+  const isDisabled = selectedName && (selectedName.status === "APPROVED" || selectedName.status === "DENIED");
 
   if (selectedName) {
     const { firstName, lastName, studentId, reasonType, comment, fileName, document } = selectedName;
@@ -67,8 +68,8 @@ export default function SpecialReason() {
         <p><b>Comment:</b></p>
         <div className="admin_comment"><p>{comment ? comment : 'No comment'}</p></div>
         <div className="admin_decision">
-          <button className='approve_btn' onClick={handleApprove}>Approve</button>
-          <button className='deny_btn' onClick={handleDeny}>Deny</button>
+          <button className='approve_btn' onClick={handleApprove} disabled={isDisabled}>Approve</button>
+          <button className='deny_btn' onClick={handleDeny} disabled={isDisabled}>Deny</button>
         </div>
       </div>
     )
