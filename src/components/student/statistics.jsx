@@ -87,7 +87,7 @@ export default function Statistics() {
                 <td>{subject.name}</td>
                 <td>{subject.present}</td>
                 <td>{subject.absent}</td>
-                <td>{${(subject.absent / 15 * 100).toFixed(0)}%}</td>
+                <td>{`${(subject.absent / 15 * 100).toFixed(0)}%`}</td>
                 <td><FaAngleDown onClick={() => handleDropdownClick(subject)} /></td>
               </tr>
               {showDropdown && selectedSubject === subject && (
