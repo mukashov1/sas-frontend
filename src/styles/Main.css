@@ -204,8 +204,7 @@ input {
 }
 
 .main table td:first-child {
-  text-align: left;
-  text-indent: 5px;
+  width: 15%;
 }
 
 .main table td a {
@@ -247,6 +246,7 @@ background: red;
 
 .main table tbody tr.active button {
   background: #50abff;
+  cursor: pointer;
 }
 
 .main table tbody tr.not_active button {
