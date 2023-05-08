@@ -85,11 +85,11 @@ export default function Specialreason() {
                 <div className="date_chooser">
                     <label data-testid="start-date-label">
                         From :
-                        <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
+                        <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} maxDate={new Date()} />
                     </label>
                     <label data-testid="end-date-label">
                         To :
-                        <DatePicker selected={endDate} onChange={(date) => setEndDate(date)} />
+                        <DatePicker selected={endDate} onChange={(date) => setEndDate(date)} maxDate={new Date()} />
                     </label>
                     <label data-testid="select-label">
                         <select value={selectedOption} onChange={handleOptionChange} style={{ background: '#6DCF4B' }}>
