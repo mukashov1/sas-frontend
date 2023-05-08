@@ -4,7 +4,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { AiOutlineCloudUpload } from 'react-icons/ai';
 import $api from '../../http/api';
-
+import Modal from 'react-modal';
 
 export default function Specialreason() {
     const [startDate, setStartDate] = useState(new Date());
@@ -14,6 +14,9 @@ export default function Specialreason() {
     const [selectedName, setSelectedName] = useState('');
     const [comment, setComment] = useState('');
     const [isButtonEnabled, setIsButtonEnabled] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalText, setModalText] = useState('');
+    const [fileToUpload, setFileToUpload] = useState(null)
     const user = JSON.parse(localStorage.getItem('user'))
 
     const handleOptionChange = (event) => {
@@ -23,32 +26,41 @@ export default function Specialreason() {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        try {
-            const response = await $api.post("recordSpecialReason", {
-                "studentId": user.studentId,
-                "firstName": user.firstName,
-                "lastName": user.lastName,
-                "fromDate": startDate,
-                "toDate": endDate,
-                "type": selectedOption,
-                "file": selectedFile,
-                "comment": comment,
-                "fileName": selectedName
-            });
-            if (response.status === 200) {
-                alert("File submitted successfully!");
-                setStartDate(new Date());
-                setEndDate(new Date());
-                setSelectedOption("Illness");
-                setSelectedFile(null);
-                setSelectedName("");
-                setComment("");
-                setIsButtonEnabled(true);
-            } else {
-                alert("Form submission failed.");
+        if (startDate > endDate && (startDate.getDate() !== endDate.getDate() || startDate.getMonth() !== endDate.getMonth() ||
+            startDate.getFullYear() !== endDate.getFullYear())) {
+            setModalText('The from date cannot be later than the end date');
+            setIsModalOpen(true);
+        } else if (fileToUpload.size > 10000000) {
+            setModalText('File size exceeds 10mb');
+            setIsModalOpen(true);
+        } else {
+            try {
+                const response = await $api.post("recordSpecialReason", {
+                    "studentId": user.studentId,
+                    "firstName": user.firstName,
+                    "lastName": user.lastName,
+                    "fromDate": startDate,
+                    "toDate": endDate,
+                    "type": selectedOption,
+                    "file": selectedFile,
+                    "comment": comment,
+                    "fileName": selectedName
+                });
+                if (response.status === 200) {
+                    alert("File submitted successfully!");
+                    setStartDate(new Date());
+                    setEndDate(new Date());
+                    setSelectedOption("Illness");
+                    setSelectedFile(null);
+                    setSelectedName("");
+                    setComment("");
+                    setIsButtonEnabled(true);
+                } else {
+                    alert("Form submission failed.");
+                }
+            } catch (error) {
+                alert("An error occurred while submitting the form.");
             }
-        } catch (error) {
-            alert("An error occurred while submitting the form.");
         }
     };
 
@@ -56,6 +68,7 @@ export default function Specialreason() {
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
+        setFileToUpload(file)
         setSelectedName(file.name);
         setIsButtonEnabled(true);
         const reader = new FileReader();
@@ -78,7 +91,7 @@ export default function Specialreason() {
                         To :
                         <DatePicker selected={endDate} onChange={(date) => setEndDate(date)} />
                     </label>
-                    <label  data-testid="select-label">
+                    <label data-testid="select-label">
                         <select value={selectedOption} onChange={handleOptionChange} style={{ background: '#6DCF4B' }}>
                             <option value="Illness" style={{ background: '#6DCF4B' }}>
                                 Illness
@@ -113,6 +126,28 @@ export default function Specialreason() {
                     Submit
                 </button>
             </form>
+            <Modal
+                isOpen={isModalOpen}
+                onRequestClose={() => setIsModalOpen(false)}
+                style={{
+                    content: {
+                        width: '18%',
+                        height: '15%',
+                        margin: 'auto',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    },
+                }}
+            >
+                <div style={{ textAlign: 'center' }}>
+                    <p style={{ marginBottom: '20px', color: 'red' }}>{modalText}</p>
+                    <button onClick={() => setIsModalOpen(false)} style={{ marginTop: '10px' }}>
+                        OK
+                    </button>
+                </div>
+            </Modal>
         </div>
     );
 }
