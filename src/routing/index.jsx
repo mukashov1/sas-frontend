@@ -21,12 +21,6 @@ export const UserContext = createContext();
 
 
 export const MyRoutes = observer(() => {
-  // const { store } = useContext(UserContext);
-  useEffect(() => {
-    console.log(store.user)
-    console.log("Inside routing useEffect triggered:  ")
-  });
-
   useEffect(() => {
     if (localStorage.getItem("token")) {
       async function mygn(params) {

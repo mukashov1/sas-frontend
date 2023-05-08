@@ -44,7 +44,6 @@ export default function SpecialReason() {
   const handleDeny = async () => {
     try {
       const updatedReason = { ...selectedName, status: 'DENIED' };
-      console.log(selectedName)
       await $api.put(`/reasons/${selectedName.reasonId}`, updatedReason);
       setSelectedName(null);
       fetchData();

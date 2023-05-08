@@ -15,7 +15,15 @@ export default function Absence() {
   const [timers, setTimers] = useState({});
   const [buttonClicked, setButtonClicked] = useState(false);
   const [subjects, setSubjects] = useState(JSON.parse(localStorage.getItem('lessons')))
-  console.log("LOCAL: " + Object.values(subjects[1]))
+
+  const today = new Date().toString().split(" ")[0]
+  let todayLessons = []
+  for (let index = 0; index < subjects.length; index++) {
+    const subject = subjects[index];
+    if (subject.time.split(' ')[0] === today)
+      todayLessons.push(subject)
+  }
+
   const toggleSchedule = () => {
     setShowSchedule(true);
   };
@@ -102,17 +110,16 @@ export default function Absence() {
               </tr>
             </thead>
             <tbody>
-              {subjects.map(subject => (
-                <tr key={subject.name} className={statusClassNames[subject.status]}>
-                  <td>{subject.courseId}</td>
-                  <td>{subject.name}</td>
-                  <td>{subject.group}</td>
-                  <td>{subject.room}</td>
-                  <td><button onClick={() => handleStatusClick(subject)}>{subject.status}</button></td>
+              {todayLessons.map(lesson => (
+                <tr key={lesson.lessonName} className={statusClassNames[lesson.status]}>
+                  <td>{lesson.courseId}</td>
+                  <td>{lesson.lessonName}</td>
+                  <td>{lesson.group}</td>
+                  <td>{lesson.room}</td>
+                  <td><button onClick={() => handleStatusClick(lesson)}>{lesson.status}</button></td>
                 </tr>
               ))}
             </tbody>
-
           </table>
           <button onClick={toggleSchedule}>Show Week Schedule</button>
         </>

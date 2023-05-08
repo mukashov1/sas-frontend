@@ -63,7 +63,6 @@ export default function Messages() {
     }
 
     function handleAcceptClick() {
-        console.log('Accept')
         const updatedList = messageList.slice();
         const index = updatedList.findIndex((message) => message === selectedMessage);
         updatedList[index].accepted = true;

@@ -15,9 +15,6 @@ import store from '../store.js'
 export default function Navbar() {
   // const { store } = useContext(UserContext);
   const user = JSON.parse(localStorage.getItem('user'))
-  console.log("NavBar User:" + Object.values(user))
-  console.log("Inside navbar:" + user.role.toLowerCase())
-  console.log(store.user)
   let menu;
 
   if (user.role === 'Student') {

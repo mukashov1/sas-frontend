@@ -10,11 +10,9 @@ class Store {
   role = 'student'
   constructor() {
     makeAutoObservable(this);
-    console.log("we are inside of constructor")
     const savedUser = localStorage.getItem("user");
     if (savedUser) {
       this.setUser(savedUser);
-      console.log("user is set")
     }
   }
 
@@ -38,7 +36,6 @@ class Store {
       this.setUser(response.data.user);
       return response;
     } catch (error) {
-      console.log(error.response?.data?.message);
       return error?.response?.data;
     }
   }
@@ -51,7 +48,6 @@ class Store {
       this.setUser(response.data.user);
       return response;
     } catch (error) {
-      console.log(error.response?.data?.message);
       return error?.response?.data;
     }
   }
@@ -59,23 +55,19 @@ class Store {
   async logout(userId, password) {
     try {
       const response = await AutService.logout(userId, password);
-      console.log(response);
       localStorage.removeItem("token");
       this.setAuth(false);
       this.setUser({});
     } catch (error) {
-      console.log(error.response?.data?.message);
     }
   }
   async edit(data) {
     try {
       const response = await UserService.edit(data);
-      console.log(response);
       localStorage.setItem("token", response.data.accessToken);
       this.setAuth(true);
       this.setUser(response.data.user);
     } catch (error) {
-      console.log(error.response?.data?.message);
       return error?.response?.data;
     }
   }

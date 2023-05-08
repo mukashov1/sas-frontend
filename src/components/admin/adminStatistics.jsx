@@ -44,7 +44,6 @@ export default function AdminStatistics() {
       });
       setMatchingUser(matchingUser);
     } else {
-      console.log(`Searching for ${searchType} "${courseSearchTerm}" with absence rate filter of ${absenceRate}`);
     }
   };
 

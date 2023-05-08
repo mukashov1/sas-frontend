@@ -1,9 +1,8 @@
 import React from "react";
 
 export default function Message(props) {
-    const {message, onAccept, onDeny} = props
-    const { senderName, content, receivedDate, type, accepted} = message;
-    console.log('Accept')
+    const { message, onAccept, onDeny } = props
+    const { senderName, content, receivedDate, type, accepted } = message;
 
     return (
         <div className="message">
