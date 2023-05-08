@@ -29,11 +29,11 @@ function Dropdown({ subject, dates }) {
             {dates.map((date, index) => (
               <td key={date}>
                 {subject.attendance[index] === 'manual' ? (
-                  <i style={{ color: 'blue' }}><FaParking /></i>
+                  <i style={{ color: 'green' }}><BsHandIndexThumbFill /></i>
                 ) : subject.attendance[index] === 'present' ? (
                   <i style={{ color: 'green' }}><BsCheckCircleFill /></i>
                 ) : subject.attendance[index] === 'reason' ? (
-                  <i style={{ color: 'green' }}><BsFillFileEarmarkPdfFill /></i>
+                  <i style={{ color: 'blue' }}><FaParking /></i>
                 ) : (
                   <i style={{ color: 'red' }}><BsFillXCircleFill /></i>
                 )}
