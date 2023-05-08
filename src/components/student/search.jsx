@@ -72,7 +72,7 @@ export default function Search({ onClose, handleUserRequest }) {
       <h4>Authorized for Special Reasons</h4>
       <form onSubmit={handleSearchSubmit}>
         <BsSearch />
-        <input type="text" placeholder='Samat' value={searchTerm} onChange={handleSearchChange} />
+        <input type="text" placeholder='ID or Name and Surname' value={searchTerm} onChange={handleSearchChange} />
         <button type="submit">Search</button>
       </form>
       {searchResults.length > 0 ? (

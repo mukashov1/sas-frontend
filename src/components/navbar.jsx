@@ -26,7 +26,7 @@ export default function Navbar() {
       <NavLink to={'/student/statistics'} ><ImStatsDots />    Attendance</NavLink>
       <NavLink to={'/student/messages'} ><MdMessage />    Messages</NavLink>
       <NavLink to={'/student/reason'} ><HiClipboardList />    Absence Reason</NavLink>
-      <NavLink to={'/student/settings'} ><IoMdSettings />    Autorize</NavLink>
+      <NavLink to={'/student/settings'} ><IoMdSettings />    Authorize</NavLink>
       <NavLink to={'/'} style={{ color: '#ff0000' }} onClick={handleLogOut}><BiLogOut />    Log out</NavLink>
     </div>;
   } else if (user.role === 'Admin') {
