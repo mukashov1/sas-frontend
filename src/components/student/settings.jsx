@@ -4,7 +4,7 @@ import { RiDeleteBinLine } from 'react-icons/ri'
 
 export default function Settings() {
   const [showSettings, setShowSettings] = useState(true);
-  const [permittedUsers, setPermittedUsers] = useState([]);
+  const [permittedUsers, setPermittedUsers] = useState(JSON.parse(localStorage.getItem('permitted users')));
 
   const handleRegisterClick = () => {
     setShowSettings(false);
@@ -12,10 +12,14 @@ export default function Settings() {
 
   const handleUserRequest = (user) => {
     setPermittedUsers([...permittedUsers, { ...user, status: 'requested' }]);
+    console.log("Autorize permitted users: " + permittedUsers)
+    localStorage.setItem('permitted users' , JSON.stringify([...permittedUsers, { ...user, status: 'requested' }]))
   };
-
+  
   const handleUserDelete = (userId) => {
     setPermittedUsers(permittedUsers.filter(user => user.id !== userId));
+    console.log("Autorize permitted users: " + permittedUsers)
+    localStorage.setItem('permitted users' , JSON.stringify(permittedUsers.filter(user => user.id !== userId)))
   };
 
   return (
@@ -32,7 +36,7 @@ export default function Settings() {
                     <td>{user.name}  {user.surname}</td>
                     <td>{user.id}</td>
                     <td>
-                      <button>requested</button>
+                      <button className={user.status}>{user.status}</button>
                     </td>
                     <td>
                       <i onClick={() => handleUserDelete(user.id)}><RiDeleteBinLine/></i>
@@ -40,6 +44,8 @@ export default function Settings() {
                   </tr>
                 ))}
               </table>
+
+              <button onClick={handleRegisterClick} style={{float: 'right', background: '#50abff'}}>Add</button>
             </div>
           ) : (
             <div className='no_permitted'>

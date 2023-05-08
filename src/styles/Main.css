@@ -540,6 +540,18 @@ option {
   width: 100%;
 }
 
+.permitted_users table button.requested {
+  background: #9da0a3;
+}
+
+.permitted_users table button.accepted {
+  background: #6dcf4b;
+}
+
+.permitted_users table button.denied {
+  background: red;
+}
+
 .no_permitted {
   display: flex;
   flex-direction: column;
@@ -572,7 +584,7 @@ option {
 }
 
 .search form input {
-  width: 60%;
+  width: max(200px, 30%);
   border: 3px solid #d9d9d9;
   border-radius: 30px;
   padding: 5px 20px;
@@ -650,6 +662,14 @@ option {
 .admin_reasons table tbody tr td:first-child {
   color: #50abff;
   cursor: pointer;
+}
+
+.admin_reasons table tbody tr td.approved button {
+  background: #6dcf4b;
+}
+
+.admin_reasons table tbody tr td.denied button {
+  background: red;
 }
 
 .admin_reason {

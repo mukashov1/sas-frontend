@@ -25,6 +25,8 @@ function SignIn() {
 
     if (response && response.status === 200) {
       localStorage.setItem("user", JSON.stringify(response.data.user));
+      localStorage.setItem("users", JSON.stringify(users));
+      localStorage.setItem("permitted users", JSON.stringify([]));
 
       if (store.user.role === 'Student') {
         navigate("/student");
@@ -81,5 +83,23 @@ function SignIn() {
     </div>
   );
 }
+
+
+const users = [
+  { id: 200107032, name: "Samat", surname: "Zhumamuratov", status: "admin" },
+  { id: 200107111, name: "Lyazzat", surname: "Atymtayeva", status: "teacher" },
+  { id: 200107112, name: "Inkar", surname: "Shoganova", status: "teacher" },
+  { id: 200107113, name: "Akniyet", surname: "Talgatkyzy", status: "student" },
+  { id: 200107114, name: "Dilnaz", surname: "Zhumabaikyzy", status: "student" },
+  { id: 200107115, name: "Azat", surname: "Kulakhmet", status: "student" },
+  { id: 200107116, name: "Damir", surname: "Aliyev", status: "student" },
+  { id: 200107117, name: "Akbope", surname: "Zhengiskhan", status: "student" },
+  { id: 200107118, name: "Satzhan", surname: "Kadyr", status: "student" },
+  { id: 200107022, name: "Rauan", surname: "Orynbasar", status: "student" },
+  { id: 200107119, name: "Bakdaulet", surname: "Mukashov", status: "student" },
+  { id: 200107073, name: "Aslan", surname: "Abenov", status: "student" },
+  { id: 200107080, name: "Arnibek", surname: "Nussupekov", status: "student" },
+  { id: 1, name: "John", surname: "Doe", status: "student" }
+];
 
 export default SignIn;

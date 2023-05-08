@@ -34,6 +34,7 @@ export default function SpecialReason() {
     try {
       const updatedReason = { ...selectedName, status: 'APPROVED' };
       await $api.put(`/reasons/${selectedName.reasonId}`, updatedReason);
+      console.log(selectedName.reasonId)
       setSelectedName(null);
       fetchData();
     } catch (error) {
@@ -92,7 +93,7 @@ export default function SpecialReason() {
               <td onClick={() => setSelectedName(reason)}>{reason.firstName} {reason.lastName}</td>
               <td>{reason.studentId}</td>
               <td>{reason.reasonType}</td>
-              <td>{reason.status}</td>
+              <td  className={reason.status.toLowerCase()}><button disabled>{reason.status}</button></td>
             </tr>
           )
           ))}
