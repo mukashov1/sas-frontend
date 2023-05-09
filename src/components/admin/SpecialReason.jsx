@@ -44,8 +44,7 @@ export default function SpecialReason() {
 
   const handleDeny = async () => {
     try {
-      const updatedReason = { ...selectedName, status: 'DENIED' };
-      await $api.put(`/reasons/${selectedName.reasonId}`, updatedReason);
+      await $api.put(`/reasons/${selectedName.reasonId}`, { status: "DENIED" });
       setSelectedName(null);
       fetchData();
     } catch (error) {
@@ -93,7 +92,7 @@ export default function SpecialReason() {
               <td onClick={() => setSelectedName(reason)}>{reason.firstName} {reason.lastName}</td>
               <td>{reason.studentId}</td>
               <td>{reason.reasonType}</td>
-              <td  className={reason.status.toLowerCase()}><button disabled>{reason.status}</button></td>
+              <td className={reason.status.toLowerCase()}><button disabled>{reason.status}</button></td>
             </tr>
           )
           ))}
