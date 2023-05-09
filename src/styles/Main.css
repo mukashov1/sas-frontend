@@ -241,7 +241,7 @@ input {
 }
 
 .main table tbody tr.absent button {
-background: red;
+  background: red;
 }
 
 .main table tbody tr.active button {
@@ -274,7 +274,6 @@ background: red;
 .statistics table td,
 .statistics table th {
   text-align: center;
-  width: max-content;
   padding: 20px;
 }
 
@@ -287,6 +286,30 @@ background: red;
   border-radius: 28px;
   font-size: large;
   padding: 10px 20px;
+}
+
+.statistics .dropdown {
+  text-align: center;
+  overflow-x: scroll;
+}
+
+.statistics .dropdown ul li {
+  display: flex;
+  max-width: max(50vw, 100px);;
+}
+
+.statistics .dropdown ul li > * {
+  border-bottom: 1px solid #50abff;
+  border-right: 1px solid #50abff;
+  padding: 10px 10px;
+}
+
+.statistics .dropdown ul li strong {
+  min-width: 100px;
+}
+
+.statistics .dropdown ul li span {
+  min-width: 40px;
 }
 
 /* <-----------******----------> */
