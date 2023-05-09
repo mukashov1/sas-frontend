@@ -295,7 +295,7 @@ input {
 
 .statistics .dropdown ul li {
   display: flex;
-  max-width: max(50vw, 100px);;
+  max-width: max(50vw, 100px);
 }
 
 .statistics .dropdown ul li > * {
