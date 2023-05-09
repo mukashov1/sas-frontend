@@ -27,6 +27,7 @@ function SignIn() {
       localStorage.setItem("user", JSON.stringify(response.data.user));
       localStorage.setItem("users", JSON.stringify(users));
       localStorage.setItem("permitted users", JSON.stringify([]));
+      localStorage.setItem("subjects", JSON.stringify(subjects));
 
       if (store.user.role === 'Student') {
         navigate("/student");
@@ -101,5 +102,14 @@ const users = [
   { id: 200107080, name: "Arnibek", surname: "Nussupekov", status: "student" },
   { id: 1, name: "John", surname: "Doe", status: "student" }
 ];
+
+const subjects = [
+  { name: 'History', present: 15, absent: 2, attendance: ['present', 'absent', 'present', 'present', 'absent', 'present', 'present', 'present', 'present', 'present'] },
+  { name: 'Math', present: 10, absent: 5, attendance: ['present', 'manual', 'present', 'present', 'absent', 'present', 'present', 'present', 'present', 'present'] },
+  { name: 'Programming', present: 1, absent: 3, attendance: ['present', 'absent', 'present', 'present', 'absent', 'present', 'present', 'present', 'present', 'present'] },
+  { name: 'Design Pattern', present: 4, absent: 1, attendance: ['present', 'absent', 'present', 'present', 'absent', 'present', 'present', 'present', 'present', 'present'] },
+  { name: 'DBMS1', present: 9, absent: 2, attendance: ['reason', 'absent', 'present', 'present', 'absent', 'present', 'present', 'present', 'present', 'present'] },
+  { name: 'DBMS2', present: 5, absent: 6, attendance: ['present', 'absent', 'present', 'present', 'absent', 'present', 'present', 'present', 'present', 'present'] },
+]
 
 export default SignIn;
