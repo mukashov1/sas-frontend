@@ -30,6 +30,7 @@ export default function SpecialReason() {
   }
 
   const handleReturnClick = () => {
+    fetchData();
     setSelectedName(null);
   }
 
