@@ -18,6 +18,14 @@ export default function Specialreason() {
     const [modalText, setModalText] = useState('');
     const [fileToUpload, setFileToUpload] = useState(null)
     const user = JSON.parse(localStorage.getItem('user'))
+    const accessibleUsers = JSON.parse(localStorage.getItem('accessible user'))
+    const [selectedUser, setSelectedUser] = useState(accessibleUsers[0]);
+
+    const handleUserChange = (event) => {
+        const selectedUserId = parseInt(event.target.value);
+        const selectedUser = accessibleUsers.find(user => user.id === selectedUserId);
+        setSelectedUser(selectedUser);
+    };
 
     const handleOptionChange = (event) => {
         setSelectedOption(event.target.value);
@@ -36,9 +44,9 @@ export default function Specialreason() {
         } else {
             try {
                 const response = await $api.post("recordSpecialReason", {
-                    "studentId": user.studentId,
-                    "firstName": user.firstName,
-                    "lastName": user.lastName,
+                    "studentId": selectedUser.id,
+                    "firstName": selectedUser.name,
+                    "lastName": selectedUser.surname,
                     "fromDate": startDate,
                     "toDate": endDate,
                     "type": selectedOption,
@@ -54,7 +62,7 @@ export default function Specialreason() {
                     setSelectedFile(null);
                     setSelectedName("");
                     setComment("");
-                    setIsButtonEnabled(true);
+                    setIsButtonEnabled(false);
                 } else {
                     alert("Form submission failed.");
                 }
@@ -81,6 +89,15 @@ export default function Specialreason() {
     return (
         <div className="special_reason">
             <h2>Manage Special Reason for Absence</h2>
+            <label>
+                <select onChange={handleUserChange}>
+                    {accessibleUsers.map((user) => (
+                        <option key={user.id} value={user.id}>
+                            {user.name} {user.surname}
+                        </option>
+                    ))}
+                </select>
+            </label>
             <form action="POST" onSubmit={handleSubmit}>
                 <div className="date_chooser">
                     <label data-testid="start-date-label">
@@ -92,14 +109,14 @@ export default function Specialreason() {
                         <DatePicker selected={endDate} onChange={(date) => setEndDate(date)} maxDate={new Date()} />
                     </label>
                     <label data-testid="select-label">
-                        <select value={selectedOption} onChange={handleOptionChange} style={{ background: '#6DCF4B' }}>
-                            <option value="Illness" style={{ background: '#6DCF4B' }}>
+                        <select value={selectedOption} onChange={handleOptionChange} style={{ background: '#50abff' }}>
+                            <option value="Illness" style={{ background: '#50abff' }}>
                                 Illness
                             </option>
-                            <option value="Travel" style={{ background: '#6DCF4B' }}>
+                            <option value="Travel" style={{ background: '#50abff' }}>
                                 Travel
                             </option>
-                            <option value="Other" style={{ background: '#6DCF4B' }}>
+                            <option value="Other" style={{ background: '#50abff' }}>
                                 Other
                             </option>
                         </select>

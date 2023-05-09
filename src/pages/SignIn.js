@@ -28,6 +28,8 @@ function SignIn() {
       localStorage.setItem("users", JSON.stringify(users));
       localStorage.setItem("permitted users", JSON.stringify([]));
       localStorage.setItem("subjects", JSON.stringify(subjects));
+      accessibleUser.unshift({id: response.data.user.studentId, name: response.data.user.firstName, surname: response.data.user.lastName})
+      localStorage.setItem("accessible user", JSON.stringify(accessibleUser));
 
       if (store.user.role === 'Student') {
         navigate("/student");
@@ -102,6 +104,10 @@ const users = [
   { id: 200107080, name: "Arnibek", surname: "Nussupekov", status: "student" },
   { id: 1, name: "John", surname: "Doe", status: "student" }
 ];
+
+const accessibleUser = [
+  {id: 200107117, name: "Akbope", surname: "Zhengiskhan"}
+] 
 
 const subjects = [
   { name: 'History', present: 15, absent: 2, attendance: ['present', 'absent', 'present', 'present', 'absent', 'present', 'present', 'present', 'present', 'present'] },

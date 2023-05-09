@@ -343,7 +343,7 @@ input {
 .special_reason {
   display: flex;
   flex-direction: column;
-  gap: 50px;
+  gap: 20px;
   max-width: 800px;
 }
 
