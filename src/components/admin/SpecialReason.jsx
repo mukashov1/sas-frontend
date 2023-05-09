@@ -2,20 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { Buffer } from 'buffer';
 import { BsArrowLeft } from 'react-icons/bs'
 import { CgFile } from 'react-icons/cg'
+import { ClipLoader } from "react-spinners";
 import $api from '../../http/api';
-
 
 export default function SpecialReason() {
   const [selectedName, setSelectedName] = useState(null);
   const [reasons, setReasons] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchData();
   }, []);
 
   const fetchData = async () => {
+    setLoading(true);
     const response = await $api.get("/reasons");
     setReasons(response.data);
+    setLoading(false);
   }
 
   const handleDownload = (name, data) => {
@@ -52,8 +55,6 @@ export default function SpecialReason() {
     }
   };
 
-  const isDisabled = selectedName && (selectedName.status === "APPROVED" || selectedName.status === "DENIED");
-
   if (selectedName) {
     const { firstName, lastName, studentId, reasonType, comment, fileName, document } = selectedName;
     return (
@@ -75,29 +76,40 @@ export default function SpecialReason() {
   }
 
   return (
-    <div className='admin_reasons'>
-      <h2>Absence Reason</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>ID</th>
-            <th>Reason</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {reasons.map((reason, index) => ((
-            <tr key={index}>
-              <td onClick={() => setSelectedName(reason)}>{reason.firstName} {reason.lastName}</td>
-              <td>{reason.studentId}</td>
-              <td>{reason.reasonType}</td>
-              <td className={reason.status.toLowerCase()}><button disabled>{reason.status}</button></td>
-            </tr>
-          )
-          ))}
-        </tbody>
-      </table>
+    <div className="admin_reasons">
+      {loading ? (
+        <div style={{ textAlign: "center" }}>
+          <ClipLoader size={50} color={"#123abc"} loading={loading} />
+        </div>
+      ) : (
+        <>
+          <h2>Absence Reason</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>ID</th>
+                <th>Reason</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {reasons.map((reason, index) => (
+                <tr key={index}>
+                  <td onClick={() => setSelectedName(reason)}>
+                    {reason.firstName} {reason.lastName}
+                  </td>
+                  <td>{reason.studentId}</td>
+                  <td>{reason.reasonType}</td>
+                  <td className={reason.status.toLowerCase()}>
+                    <button disabled>{reason.status}</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </>
+      )}
     </div>
-  )
+  );
 }
