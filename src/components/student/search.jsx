@@ -11,15 +11,33 @@ export default function Search({ onClose, handleUserRequest }) {
     setSearchTerm(event.target.value);
   };
 
-  const handleSearchSubmit = event => {
+  const handleSearchSubmit = async event => {
     event.preventDefault();
-    const filteredResults = users.filter(user =>
-      Object.values(user).some(value =>
-        value.toString().toLowerCase() === searchTerm.toLowerCase()
-      )
-    );
-    setSearchResults(filteredResults);
-  };  
+
+    try {
+      const response = await fetch('https://sasserver.software/api/searchStudents', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          key: searchTerm
+        }),
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        setSearchResults(data);
+      } else {
+        setSearchResults([]);
+        console.error('Error fetching search results:', response.statusText);
+      }
+    } catch (error) {
+      setSearchResults([]);
+      console.error('Error fetching search results:', error);
+    }
+  };
+   
 
   const handleAddToPermitted = user => {
     handleUserRequest(user);

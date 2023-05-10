@@ -19,8 +19,8 @@ describe('Specialreason component', () => {
         expect(screen.getByText('Click box to upload')).toBeInTheDocument();
         expect(screen.getByLabelText('Comment:')).toBeInTheDocument();
         expect(screen.getByText('Submit')).toBeInTheDocument();
-        expect(screen.getByTestId('start-date-label').querySelector('input')).toHaveValue('05/05/2023');
-        expect(screen.getByTestId('end-date-label').querySelector('input')).toHaveValue('05/05/2023');
+        expect(screen.getByTestId('start-date-label').querySelector('input')).toHaveValue('05/10/2023');
+        expect(screen.getByTestId('end-date-label').querySelector('input')).toHaveValue('05/10/2023');
         expect(screen.getByTestId('file-input')).toHaveValue('');
     });
 
@@ -68,6 +68,10 @@ describe('Specialreason component', () => {
         expect(submitButton).toBeEnabled();
         fireEvent.click(submitButton);
 
-        expect(window.alert("File submitted successfully!"))
+        await waitFor(() => {
+            expect($api.post).toHaveBeenCalledTimes(1);
+        });
+
+        expect(window.alert("File submitted successfully!"));
     });
 });

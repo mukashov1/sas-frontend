@@ -11,14 +11,12 @@ export default function Settings() {
   };
 
   const handleUserRequest = (user) => {
-    setPermittedUsers([...permittedUsers, { ...user, status: 'requested' }]);
-    console.log("Autorize permitted users: " + permittedUsers)
-    localStorage.setItem('permitted users' , JSON.stringify([...permittedUsers, { ...user, status: 'requested' }]))
+    setPermittedUsers([...permittedUsers, { id: user.studentId, name: user.user.firstName, surname: user.user.lastName, status: 'requested' }]);
+    localStorage.setItem('permitted users' , JSON.stringify([...permittedUsers, { id: user.studentId, name: user.user.firstName, surname: user.user.lastName, status: 'requested' }]))
   };
   
   const handleUserDelete = (userId) => {
     setPermittedUsers(permittedUsers.filter(user => user.id !== userId));
-    console.log("Autorize permitted users: " + permittedUsers)
     localStorage.setItem('permitted users' , JSON.stringify(permittedUsers.filter(user => user.id !== userId)))
   };
 

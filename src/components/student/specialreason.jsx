@@ -18,7 +18,7 @@ export default function Specialreason() {
     const [modalText, setModalText] = useState('');
     const [fileToUpload, setFileToUpload] = useState(null)
     const user = JSON.parse(localStorage.getItem('user'))
-    const accessibleUsers = JSON.parse(localStorage.getItem('accessible user'))
+    const accessibleUsers = JSON.parse(localStorage.getItem('accessible user')) || [{ id: 200107032, name: "Samat", surname: "Zhumamuratov" }]
     const [selectedUser, setSelectedUser] = useState(accessibleUsers[0]);
 
     const handleUserChange = (event) => {
@@ -55,7 +55,7 @@ export default function Specialreason() {
                     "fileName": selectedName
                 });
                 if (response.status === 200) {
-                    alert("File submitted successfully!");
+                    // alert("File submitted successfully!");
                     setStartDate(new Date());
                     setEndDate(new Date());
                     setSelectedOption("Illness");
@@ -63,6 +63,8 @@ export default function Specialreason() {
                     setSelectedName("");
                     setComment("");
                     setIsButtonEnabled(false);
+                    setModalText('File submitted successfully!');
+                    setIsModalOpen(true);
                 } else {
                     alert("Form submission failed.");
                 }
