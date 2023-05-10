@@ -657,11 +657,27 @@ option {
 }
 
 .admin_statistics table {
-  width: 60%;
+  width: 100%;
+}
+
+.admin_statistics .searchTable tr {
+  display: flex;
+  align-items: center;
+}
+
+.admin_statistics .searchTable tr td,
+.admin_statistics .searchTable tr th {
+  flex-basis: 30%;
+}
+
+.admin_statistics .searchTable tr td:first-child {
+  cursor: pointer;
+  text-decoration: underline;
+  color: #50abff;
 }
 
 /* <-----------******----------> */
-/*        Admin Statistics       */
+/*        Admin Reason       */
 
 .admin_reasons {
   display: flex;

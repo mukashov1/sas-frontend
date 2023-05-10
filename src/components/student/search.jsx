@@ -49,7 +49,7 @@ export default function Search({ onClose, handleUserRequest }) {
       <h4>Authorized for Special Reasons</h4>
       <form onSubmit={handleSearchSubmit}>
         <BsSearch />
-        <input type="text" placeholder='ID, name, surname, status' value={searchTerm} onChange={handleSearchChange} />
+        <input type="text" placeholder='ID, name, surname' value={searchTerm} onChange={handleSearchChange} />
         <button type="submit">Search</button>
       </form>
       {searchResults.length > 0 ? (
@@ -71,7 +71,7 @@ export default function Search({ onClose, handleUserRequest }) {
                   onRequest={() => { }}
                   onAddToPermitted={handleAddToPermitted}
                 />
-              ))}
+              ) )}
             </tbody>
           </table>
         </div>

@@ -65,8 +65,8 @@ function Dropdown({ subject }) {
 
 
 export default function Statistics() {
-  const [showDropdown, setShowDropdown] = useState(true)
-  const [selectedSubject, setSelectedSubject] = useState(subjects[0])
+  const [showDropdown, setShowDropdown] = useState(false)
+  const [selectedSubject, setSelectedSubject] = useState([])
 
   const handleDropdownClick = (subject) => {
     if (selectedSubject === subject) {

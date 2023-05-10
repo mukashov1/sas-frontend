@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { BsSearch } from 'react-icons/bs'
+import Statistics from '../admin/adminAttendance';
 
 const users = [
   { id: 1, name: 'John', surname: 'Doe', degree: 'Bachelor' },
@@ -11,85 +12,74 @@ const users = [
 
 export default function AdminStatistics() {
   const [individualSearchTerm, setIndividualSearchTerm] = useState('');
-  const [courseSearchTerm, setCourseSearchTerm] = useState('');
-  const [searchType, setSearchType] = useState('individual');
-  const [absenceRate, setAbsenceRate] = useState('');
-  const [matchingUser, setMatchingUser] = useState(true);
+  const [matchingUser, setMatchingUser] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null);
 
   const handleIndividualSearchTermChange = (event) => {
     setIndividualSearchTerm(event.target.value);
   };
 
-  const handleCourseSearchTermChange = (event) => {
-    setCourseSearchTerm(event.target.value);
-  };
-
-  const handleSearchTypeChange = (type) => {
-    setSearchType(type);
-  };
-
-  const handleAbsenceRateChange = (event) => {
-    setAbsenceRate(event.target.value);
-  };
-
-  const handleSearch = () => {
-    if (searchType === 'individual') {
-      const matchingUser = users.find((user) => {
-        const searchTermLower = individualSearchTerm.toLowerCase();
-        return (
-          user.name.toLowerCase().includes(searchTermLower) ||
-          user.surname.toLowerCase().includes(searchTermLower) ||
-          user.id.toString().includes(searchTermLower)
-        );
+  const handleSearch = async () => {
+    try {
+      const response = await fetch('https://sasserver.software/api/searchStudents', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          key: individualSearchTerm,
+        }),
       });
-      setMatchingUser(matchingUser);
-    } else {
+      const data = await response.json();
+
+      if (data && data.length > 0) {
+        setMatchingUser(data);
+      } else {
+        setMatchingUser(null);
+      }
+      console.log("Matching user: " + Object.values(matchingUser))
+    } catch (error) {
+      console.error('Error fetching data:', error);
     }
   };
 
+  const handleUserClick = (user) => {
+    setSelectedUser(user);
+  };
 
   return (
     <div className='admin_statistics'>
-      <h2>Statistics</h2>
-      <div className='search_type'>
-        <a type="button" onClick={() => handleSearchTypeChange('individual')} className={searchType === 'individual' ? 'individual active' : 'individual'}>Individual</a>
-        <a type="button" onClick={() => handleSearchTypeChange('course')} className={searchType === 'course' ? 'course active' : 'course'}>Course</a>
-      </div>
-      <div className="filter">
-        {searchType === 'individual' ? (
-          <>
-            <BsSearch />
-            <input type="text" placeholder='search by name, surname, ID' value={individualSearchTerm} onChange={handleIndividualSearchTermChange} />
-          </>
-        ) : (
-          <>
-            <BsSearch />
-            <input type="text" placeholder='Course' value={courseSearchTerm} onChange={handleCourseSearchTermChange} />
-            <label>
-              Absence Rate Filter:
-              <input type="number" value={absenceRate} onChange={handleAbsenceRateChange} />
-            </label></>
+      {!selectedUser && (<>
+        <h2>Statistics</h2>
+        <div className="filter">
+          <BsSearch />
+          <input type="text" placeholder='search by name, surname, ID' value={individualSearchTerm} onChange={handleIndividualSearchTermChange} />
+          <button onClick={handleSearch}>Search</button>
+        </div>
+        {matchingUser && (
+          <table className='searchTable'>
+            <thead>
+              <tr>
+                <th>Full Name</th>
+                <th>ID</th>
+                <th>Degree</th>
+              </tr>
+            </thead>
+            <tbody>
+              {matchingUser.map((user) => (
+                <tr key={user.studentId}>
+                  <td onClick={() => handleUserClick(user)}>
+                    {user.user.firstName} {user.user.lastName}
+                  </td>
+                  <td>{user.studentId}</td>
+                  <td>Bachelor</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         )}
-        <button onClick={handleSearch}>Search</button>
-      </div>
-      {matchingUser && (
-        <table>
-          <thead>
-            <tr>
-              <th>Full Name</th>
-              <th>ID</th>
-              <th>Degree</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><a href="#">{matchingUser.name} {matchingUser.surname}</a> </td>
-              <td>{matchingUser.id}</td>
-              <td>{matchingUser.degree}</td>
-            </tr>
-          </tbody>
-        </table>
-      )}
+      </>)}
+      {selectedUser && <Statistics handleBack={() => setSelectedUser(null)} />}
     </div>
   );
 };
