@@ -10,6 +10,22 @@ const statusClassNames = {
   "In Class": 'active',
 };
 
+const holidays = {
+  '01-01': "New Year's Day",
+  '07-04': 'Independence Day',
+  '12-25': 'Christmas Day',
+  '10-31': 'Halloween',
+  '11-26': 'Thanksgiving',
+  '12-31': "New Year's Eve",
+  // '05-10': "Victory Day"
+};
+
+const date = new Date();
+const month = String(date.getMonth() + 1).padStart(2, '0');
+const day = String(date.getDate()).padStart(2, '0');
+const monthDay = `${month}-${day}`;
+const holidayDescription = holidays[monthDay];
+
 export default function Absence() {
   const [showSchedule, setShowSchedule] = useState(false);
   const [timers, setTimers] = useState({});
@@ -88,41 +104,44 @@ export default function Absence() {
 
   return (
     <div className="main">
-      <h2>Dashboard</h2>
-      {!showSchedule && (
-        <>
-          <table>
-            <thead>
-              <tr>
-                <th>Course Code</th>
-                <th>SUBJECT</th>
-                <th>GROUP</th>
-                <th>ROOM</th>
-                <th>STATUS</th>
-              </tr>
-            </thead>
-            <tbody>
-              {subjects.map(subject => (
-                <tr key={subject.name} className={statusClassNames[subject.status]}>
-                  <td>{subject.courseId}</td>
-                  <td>{subject.name}</td>
-                  <td>{subject.group}</td>
-                  <td>{subject.room}</td>
-                  <td><button onClick={() => handleStatusClick(subject)}>{subject.status}</button></td>
+      {holidayDescription ? <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '32px', height: '40%' }}><h1>{holidayDescription}</h1></div> : <>
+        <h2>Dashboard</h2>
+        {!showSchedule && (
+          <>
+            <table>
+              <thead>
+                <tr>
+                  <th>Course Code</th>
+                  <th>SUBJECT</th>
+                  <th>GROUP</th>
+                  <th>ROOM</th>
+                  <th>STATUS</th>
                 </tr>
-              ))}
-            </tbody>
+              </thead>
+              <tbody>
+                {subjects.map(subject => (
+                  <tr key={subject.name} className={statusClassNames[subject.status]}>
+                    <td>{subject.courseId}</td>
+                    <td>{subject.name}</td>
+                    <td>{subject.group}</td>
+                    <td>{subject.room}</td>
+                    <td><button onClick={() => handleStatusClick(subject)}>{subject.status}</button></td>
+                  </tr>
+                ))}
+              </tbody>
 
-          </table>
-          <button onClick={toggleSchedule}>Show Week Schedule</button>
-        </>
-      )}
-      {showSchedule && (
-        <div>
-          <button onClick={() => setShowSchedule(false)}>Back to Subjects</button>
-          <WeeklySchedule />
-        </div>
-      )}
+            </table>
+            <button onClick={toggleSchedule}>Show Week Schedule</button>
+          </>
+        )}
+        {showSchedule && (
+          <div>
+            <button onClick={() => setShowSchedule(false)}>Back to Subjects</button>
+            <WeeklySchedule />
+          </div>
+        )}
+      </>
+      }
     </div>
   );
 }
