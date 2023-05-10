@@ -55,7 +55,6 @@ export default function Specialreason() {
                     "fileName": selectedName
                 });
                 if (response.status === 200) {
-                    // alert("File submitted successfully!");
                     setStartDate(new Date());
                     setEndDate(new Date());
                     setSelectedOption("Illness");
@@ -161,7 +160,7 @@ export default function Specialreason() {
                 }}
             >
                 <div style={{ textAlign: 'center' }}>
-                    <p style={{ marginBottom: '20px', color: 'red' }}>{modalText}</p>
+                    <p style={{ marginBottom: '20px', color: modalText === 'File submitted successfully' ? 'green' : 'red' }}>{modalText}</p>
                     <button onClick={() => setIsModalOpen(false)} style={{ marginTop: '10px' }}>
                         OK
                     </button>
