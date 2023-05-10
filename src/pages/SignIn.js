@@ -21,7 +21,7 @@ function SignIn() {
     const response = await store.login(userId, password);
     const lessonsResponse = await $api.get('/lessons')
 
-    localStorage.setItem("lessons", JSON.stringify(lessonsResponse.data));
+    localStorage.setItem("lessons", JSON.stringify(lessons));
 
     if (response && response.status === 200) {
       localStorage.setItem("user", JSON.stringify(response.data.user));
@@ -108,6 +108,13 @@ const users = [
 const accessibleUser = [
   {id: 200107117, name: "Akbope", surname: "Zhengiskhan"}
 ] 
+
+const lessons = [
+  { courseId : "CSS 245", name: 'History', group: '05-N', room: 'F312', status: 'Accepted' },
+  { courseId : "CSS 315", name: 'Math', group: '02-P', room: 'B125', status: 'Entry' },
+  { courseId : "CSS 216", name: 'Science', group: '01-N', room: 'C301', status: 'Not active' },
+  { courseId : "MDE 315", name: 'English',  group: '03-N', room: 'A210', status: 'Not active' },
+];
 
 const subjects = [
   { name: 'History', present: 15, absent: 2, attendance: ['present', 'absent', 'present', 'present', 'absent', 'present', 'present', 'present', 'present', 'present'] },
