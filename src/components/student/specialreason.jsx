@@ -160,7 +160,7 @@ export default function Specialreason() {
                 }}
             >
                 <div style={{ textAlign: 'center' }}>
-                    <p style={{ marginBottom: '20px', color: modalText === 'File submitted successfully' ? 'green' : 'red' }}>{modalText}</p>
+                    <p style={{ marginBottom: '20px', color: modalText === 'File submitted successfully!' ? 'green' : 'red' }}>{modalText}</p>
                     <button onClick={() => setIsModalOpen(false)} style={{ marginTop: '10px' }}>
                         OK
                     </button>
