@@ -2,14 +2,6 @@ import React, { useState } from 'react';
 import { BsSearch } from 'react-icons/bs'
 import Statistics from '../admin/adminAttendance';
 
-const users = [
-  { id: 1, name: 'John', surname: 'Doe', degree: 'Bachelor' },
-  { id: 2, name: 'Jane', surname: 'Doe', degree: 'Bachelor' },
-  { id: 3, name: 'Bob', surname: 'Smith', degree: 'Bachelor' },
-  { id: 4, name: 'Alice', surname: 'Johnson', degree: 'Bachelor' },
-];
-
-
 export default function AdminStatistics() {
   const [individualSearchTerm, setIndividualSearchTerm] = useState('');
   const [matchingUser, setMatchingUser] = useState([]);
